@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mndzebele Mpilo Mlamuli — IT Graduate | Software Developer & Network Specialist</title>
+<meta name="description" content="Portfolio of an Information Technology graduate specializing in software development and network administration. View projects, skills, and certifications." />
+
+
+<meta property="og:title" content="Your Name — Software Developer & Network Specialist" />
+<meta property="og:description" content="IT graduate building web, desktop and mobile applications, with hands-on experience in network administration and infrastructure." />
+<meta property="og:type" content="website" />
+
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230B1320'/%3E%3Ccircle cx='50' cy='24' r='9' fill='%234FD8C4'/%3E%3Ccircle cx='24' cy='74' r='9' fill='%23FFB454'/%3E%3Ccircle cx='76' cy='74' r='9' fill='%23FFB454'/%3E%3Cpath d='M50 24L24 74M50 24L76 74' stroke='%23314261' stroke-width='5'/%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+
+<header class="site-header" id="siteHeader">
+  <div class="nav-inner">
+    <a href="#home" class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text">Mpilo Mlamuli<span class="brand-text-accent">Mndzebele</span><span class="brand-cursor">_</span></span>
+    </a>
+
+    <nav class="route-nav" id="routeNav" aria-label="Primary">
+      <a href="#home" class="route active" data-route>Home</a>
+      <a href="#about" class="route" data-route>About</a>
+      <a href="#skills" class="route" data-route>Skills</a>
+      <a href="#projects" class="route" data-route>Projects</a>
+      <a href="#certifications" class="route" data-route>Certifications</a>
+      <a href="#contact" class="route" data-route>Contact</a>
+    </nav>
+
+    <a href="#contact" class="btn btn-ghost nav-cta">Hire Me</a>
+
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Toggle navigation menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+    <a href="#home" data-route>Home</a>
+    <a href="#about" data-route>About</a>
+    <a href="#skills" data-route>Skills</a>
+    <a href="#projects" data-route>Projects</a>
+    <a href="#certifications" data-route>Certifications</a>
+    <a href="#contact" data-route>Contact</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  
+  <section class="hero" id="home">
+    <div class="hero-grid">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Information Technology Graduate</p>
+        <h1 class="hero-title">Hi, I'm <span class="text-accent">Mndzebele Mpilo Mlamuli</span>.<br>I build software and keep networks running.</h1>
+        <p class="hero-intro">
+          I'm an IT graduate with a strong interest in software development and networking.
+          I design and build web, desktop, and mobile applications with Java, PHP, JavaScript,
+          and React — and I'm just as comfortable configuring a switch or troubleshooting a
+          network as I am writing code.
+        </p>
+        <div class="hero-actions">
+          <a href="assets/Curriculum Vitae.pdf" class="btn btn-primary" download>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download CV
+          </a>
+          <a href="#contact" class="btn btn-outline">Hire Me</a>
+        </div>
+        <div class="hero-meta">
+          <span class="status-dot" aria-hidden="true"></span>
+          Open to Software Development &amp; Network Administration roles
+        </div>
+      </div>
+
+      <div class="hero-visual reveal" aria-hidden="false">
+        <div class="photo-frame">
+          <!-- TODO: replace src with your real headshot at assets/img/profile.jpg -->
+          <img src="assets/img/image.jpg"/>
+          <span class="photo-empty-label"><br><code></code></span>
+        </div>
+
+        <div class="terminal" role="img" aria-label="Terminal window showing a simulated introduction">
+          <div class="terminal-bar">
+            <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+            <span class="terminal-title">mpilo.mndzebele9088@gmail.com: ~</span>
+          </div>
+          <div class="terminal-body" id="terminalBody">
+            <p><span class="prompt">$</span> whoami</p>
+            <p class="type-line" data-text="IT Graduate · Software Developer · Network Enthusiast"></p>
+            <p><span class="prompt">$</span> skills --top</p>
+            <p class="type-line" data-text="Java · JavaScript · React · PHP · TCP/IP · DNS · Network Security"></p>
+            <p><span class="prompt">$</span> status --availability</p>
+            <p class="type-line accent-line" data-text="OPEN_TO_WORK = true"></p>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a href="#about" class="scroll-cue" aria-label="Scroll to About section">
+      <span></span>
+    </a>
+  </section>
+
+  
+  <section class="section" id="about">
+    <div class="section-inner">
+      <p class="section-tag">About</p>
+      <h2 class="section-title">A bit about how I got here</h2>
+
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>
+            I am an Information Technology graduate with a strong interest in software
+            development and networking. Throughout my academic journey, I've developed
+            web, desktop, and mobile applications using Java, PHP, JavaScript, and React,
+            while also building solid knowledge in network administration, troubleshooting,
+            and IT infrastructure management.
+          </p>
+          <p>
+            I'm passionate about solving real-world problems through technology, and I'm
+            continuously expanding my technical skills — whether that means shipping a new
+            feature, debugging a tricky network issue, or learning a tool I haven't used
+            before. I like projects that sit at the intersection of "build it" and "keep it
+            running."
+          </p>
+        </div>
+
+        <aside class="about-card reveal">
+          <h3>Quick Facts</h3>
+          <ul class="fact-list">
+            <li><span class="fact-key">Focus</span><span class="fact-val">Software Development &amp; Networking</span></li>
+            <li><span class="fact-key">Languages</span><span class="fact-val">Java, JavaScript, PHP</span></li>
+            <li><span class="fact-key">Frameworks</span><span class="fact-val">React</span></li>
+            <li><span class="fact-key">Networking</span><span class="fact-val">TCP/IP, DNS, DHCP, Windows Server</span></li>
+            <li><span class="fact-key">Based in</span><span class="fact-val">Mbabane, Eswatini</span></li>
+            <li><span class="fact-key">Status</span><span class="fact-val"><span class="status-dot small"></span>Open to opportunities</span></li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section section-alt" id="skills">
+    <div class="section-inner">
+      <p class="section-tag">Skills</p>
+      <h2 class="section-title">What I work with</h2>
+      <p class="section-lead">Two sides of the same coin: building the application, and making sure it has a network to run on.</p>
+
+      <div class="skills-grid">
+        <div class="skill-panel reveal">
+          <div class="skill-panel-head">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <h3>Software Development</h3>
+          </div>
+          <ul class="skill-tags">
+            <li>Java</li>
+            <li>JavaScript</li>
+            <li>PHP</li>
+            <li>React</li>
+            <li>HTML5 &amp; CSS3</li>
+            <li>MySQL</li>
+            <li>Git &amp; GitHub</li>
+          </ul>
+        </div>
+
+        <div class="skill-panel reveal">
+          <div class="skill-panel-head">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+            <h3>Networking</h3>
+          </div>
+          <ul class="skill-tags">
+            <li>TCP/IP</li>
+            <li>Network Troubleshooting</li>
+            <li>Router &amp; Switch Configuration</li>
+            <li>DHCP &amp; DNS</li>
+            <li>Network Security</li>
+            <li>Remote Administration</li>
+            <li>Windows Server Fundamentals</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section class="section" id="projects">
+    <div class="section-inner">
+      <p class="section-tag">Projects</p>
+      <h2 class="section-title">Things I've built</h2>
+      <p class="section-lead">A selection of academic and personal projects across mobile, web, and desktop.</p>
+
+      <div class="project-grid">
+
+        <article class="project-card reveal">
+          <div class="project-media">
+            <!-- TODO: replace with assets/projects/health-app.jpg -->
+            <img src="assets/projects/health.png" alt="Screenshot of the Health Mobile Application" onerror="this.style.display='none'; this.parentElement.classList.add('media-empty')" />
+            <span class="media-empty-label">Add screenshot<br><code>assets/projects/health-app.jpg</code></span>
+            
+          </div>
+          <div class="project-body">
+            <h3>Health Mobile Application</h3>
+            <p>A React-based mobile application for managing patient information and healthcare access, built with a focus on a clean, accessible user experience.</p>
+            <ul class="tech-tags">
+              <li>React</li><li>JavaScript</li><li>Mobile UI</li>
+            </ul>
+            
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-media">
+            <img src="assets/projects/gti.png" alt="Screenshot of the Global Transparency Investments website" onerror="this.style.display='none'; this.parentElement.classList.add('media-empty')" />
+            <span class="media-empty-label">Add screenshot<br><code>assets/projects/gti-website.jpg</code></span>
+            
+          </div>
+          <div class="project-body">
+            <h3>Global Transparency Investments Website</h3>
+            <p>A corporate website built to present an investment firm's services with a clear, professional, and trustworthy online presence.</p>
+            <ul class="tech-tags">
+              <li>HTML5</li><li>CSS3</li><li>JavaScript</li>
+            </ul>
+            
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-media">
+            <img src="assets/projects/online shop.png" alt="Screenshot of the Student Management System" onerror="this.style.display='none'; this.parentElement.classList.add('media-empty')" />
+            <span class="media-empty-label">Add screenshot<br><code>assets/projects/online shopping.jpg</code></span>
+            
+          </div>
+          <div class="project-body">
+            <h3>Online Shopping System</h3>
+            <p>A Java desktop application for managing online shopping records, orders, and promotions, built to streamline administrative workflows.</p>
+            <ul class="tech-tags">
+              <li>Java</li><li>OOP</li><li>MySQL</li>
+            </ul>
+            
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-media">
+            <img src="assets/projects/pos.png" alt="Screenshot of the Inventory Management System" onerror="this.style.display='none'; this.parentElement.classList.add('media-empty')" />
+            <span class="media-empty-label">Add screenshot<br><code>assets/projects/inventory.jpg</code></span>
+            
+          </div>
+          <div class="project-body">
+            <h3>Inventory Management System</h3>
+            <p>A Java Server Pages &amp; MySQL web application for tracking stock levels, recording transactions, and generating inventory reports.</p>
+            <ul class="tech-tags">
+              <li>JSP</li><li>MySQL</li><li>HTML/CSS</li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CERTIFICATIONS ============ -->
+  <!-- ============ CERTIFICATIONS ============ -->
+<section class="section section-alt" id="certifications">
+  <div class="section-inner">
+    <p class="section-tag">Certifications</p>
+    <h2 class="section-title">Certifications &amp; Achievements</h2>
+
+    <div class="cert-grid">
+      <div class="cert-card reveal">
+        <svg class="cert-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="6"/><path d="M15.5 13.5L17 22l-5-3-5 3 1.5-8.5"/>
+        </svg>
+        <h3>Health Hackathon</h3>
+        <p>Participant — RSTP &amp; Georgetown University, collaborating on a technology solution for a healthcare challenge.</p>
+      </div>
+
+      <div class="cert-card reveal">
+        <svg class="cert-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+        <h3>Code for Care Hackathon 2024</h3>
+        <p>Built a solution under time constraints with a team, focused on technology for care and community impact.</p>
+      </div>
+
+      <div class="cert-card reveal">
+        <svg class="cert-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        <h3>Corporate Social Responsibility</h3>
+        <p>Volunteered time and technical skills toward community-focused CSR initiatives.</p>
+      </div>
+
+      <div class="cert-card reveal">
+        <svg class="cert-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+        <h3>Peer Tutoring &amp; Extra Classes</h3>
+        <p>Ran extra classes and peer tutoring sessions for fellow students at university.</p>
+      </div>
+    </div>
+
+    <h3 class="cert-group-label">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/>
+        <line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
+      </svg>
+      Cisco Networking Academy — Instructor-Led
+    </h3>
+
+    <div class="cert-grid cert-grid-cisco">
+      <div class="cert-card cert-card-cisco reveal">
+        <div class="cisco-badge">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="cisco-body">
+          <span class="cisco-issuer">Cisco Networking Academy</span>
+          <h3>Introduction to Cybersecurity</h3>
+          <p>Foundations of cybersecurity: threats, attack types, security layers, and best practices for protecting data and systems.</p>
+          <span class="cert-badge">Instructor-Led</span>
+        </div>
+      </div>
+
+      <div class="cert-card cert-card-cisco reveal">
+        <div class="cisco-badge">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="cisco-body">
+          <span class="cisco-issuer">Cisco Networking Academy</span>
+          <h3>Cybersecurity Essentials</h3>
+          <p>In-depth coverage of core cybersecurity principles including cryptography, access controls, firewalls, and incident response.</p>
+          <span class="cert-badge">Instructor-Led</span>
+        </div>
+      </div>
+
+      <div class="cert-card cert-card-cisco reveal">
+        <div class="cisco-badge">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <div class="cisco-body">
+          <span class="cisco-issuer">Cisco Networking Academy</span>
+          <h3>Networking Essentials</h3>
+          <p>Core networking concepts including OSI model, TCP/IP, IP addressing, routing protocols, and network infrastructure setup.</p>
+          <span class="cert-badge">Instructor-Led</span>
+        </div>
+      </div>
+
+      <div class="cert-card cert-card-cisco reveal">
+        <div class="cisco-badge cisco-badge-red">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+          </svg>
+        </div>
+        <div class="cisco-body">
+          <span class="cisco-issuer">Cisco Networking Academy</span>
+          <h3>Ethical Hacker</h3>
+          <p>Penetration testing methodologies, vulnerability assessment, social engineering, and ethical hacking techniques aligned with industry standards.</p>
+          <span class="cert-badge cert-badge-red">Instructor-Led</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section" id="contact">
+    <div class="section-inner">
+      <p class="section-tag">Contact</p>
+      <h2 class="section-title">Let's talk</h2>
+      <p class="section-lead">Open to software development and network administration roles, internships, and freelance work.</p>
+
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <a class="contact-row" href="mailto:youremail@example.com">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+            <span>mpilo.mndzebele9088@gmail.com</span>
+          </a>
+          <a class="contact-row" href="tel:+26800000000">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>+268 78487602 / 79793794</span>
+          </a>
+          <a class="contact-row" href="https://linkedin.com/in/mpilo-mndzebele-a156a8305?trk=contact-info" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            <span>linkedin.com/in/mpilo-mndzebele</span>
+          </a>
+          <a class="contact-row" href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            <span>github.com/mpilo-mndzebele</span>
+          </a>
+
+          <div class="contact-location">
+            <span class="status-dot small"></span> Mbabane, Eswatini — open to remote &amp; relocation
+          </div>
+        </div>
+
+        <form class="contact-form reveal" id="contactForm" action="https://formspree.io/f/mvzjbkne" method="POST">
+          
+          <div class="form-row">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required autocomplete="name" />
+          </div>
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email" />
+          </div>
+          <div class="form-row">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit">
+            <span class="btn-label">Send Message</span>
+          </button>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>&copy; <span id="year"></span> Mndzebele Mpilo Mlamuli. Built from scratch, deployed on GitHub Pages.</p>
+    <div class="footer-links">
+      <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://linkedin.com/in/mpilo-mndzebele-a156a8305?trk=contact-info" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="mailto:mpilo.mndzebele9088@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<script src="js/script.js"></script>
+</body>
+</html>
