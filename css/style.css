@@ -362,7 +362,7 @@ code{ font-family: var(--font-mono); }
 /* ===================================================================
    WRITE-UPS
 =================================================================== */
-.writeup-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.writeup-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
 .writeup-card{
   display: flex; flex-direction: column;
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
@@ -385,7 +385,6 @@ code{ font-family: var(--font-mono); }
 .writeup-read{ color: var(--accent); display:flex; align-items:center; gap: 6px; transition: gap .2s; }
 .writeup-card:hover .writeup-read{ gap: 10px; }
 
-@media (max-width: 980px){ .writeup-grid{ grid-template-columns: 1fr 1fr; } }
 @media (max-width: 640px){ .writeup-grid{ grid-template-columns: 1fr; } }
 
 /* Article page (writeups/*.html) */
