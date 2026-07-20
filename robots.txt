@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mlamuli-cyber.github.io/mpilo-mlamuli-mndzebele/sitemap.xml
