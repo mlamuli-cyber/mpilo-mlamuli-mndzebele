@@ -220,6 +220,7 @@
       panel.classList.add('is-open');
       toggle.setAttribute('aria-expanded', 'true');
       panel.setAttribute('aria-hidden', 'false');
+      panel.removeAttribute('inert');
 
       if (!hasGreeted) {
         hasGreeted = true;
@@ -239,6 +240,7 @@
       panel.classList.remove('is-open');
       toggle.setAttribute('aria-expanded', 'false');
       panel.setAttribute('aria-hidden', 'true');
+      panel.setAttribute('inert', '');
       toggle.focus();
     }
 

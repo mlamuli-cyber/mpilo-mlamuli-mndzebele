@@ -72,9 +72,11 @@
     <nav class="route-nav" id="routeNav" aria-label="Primary">
       <a href="#home" class="route active" data-route>Home</a>
       <a href="#about" class="route" data-route>About</a>
+      <a href="#experience" class="route" data-route>Experience</a>
       <a href="#skills" class="route" data-route>Skills</a>
       <a href="#projects" class="route" data-route>Projects</a>
       <a href="#certifications" class="route" data-route>Certifications</a>
+      <a href="#testimonials" class="route" data-route>Testimonials</a>
       <a href="#writeups" class="route" data-route>Write-ups</a>
       <a href="#contact" class="route" data-route>Contact</a>
     </nav>
@@ -89,9 +91,11 @@
   <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
     <a href="#home" data-route>Home</a>
     <a href="#about" data-route>About</a>
+    <a href="#experience" data-route>Experience</a>
     <a href="#skills" data-route>Skills</a>
     <a href="#projects" data-route>Projects</a>
     <a href="#certifications" data-route>Certifications</a>
+    <a href="#testimonials" data-route>Testimonials</a>
     <a href="#writeups" data-route>Write-ups</a>
     <a href="#contact" data-route>Contact</a>
   </nav>
@@ -126,8 +130,7 @@
 
       <div class="hero-visual reveal" aria-hidden="false">
         <div class="photo-frame">
-          <!-- TODO: replace src with your real headshot at assets/img/profile.jpg -->
-          <img src="assets/img/image.jpg"/>
+          <img src="assets/img/image.jpg" alt="Portrait of Mndzebele Mpilo Mlamuli" width="420" height="420" loading="eager"/>
           <span class="photo-empty-label"><br><code></code></span>
         </div>
 
@@ -196,6 +199,64 @@
   </section>
 
   
+  <section class="section" id="experience">
+    <div class="section-inner">
+      <p class="section-tag">Experience</p>
+      <h2 class="section-title">Where I've worked</h2>
+      <p class="section-lead">Hands-on roles across software development, security, and network support.</p>
+
+      <ol class="timeline">
+        <li class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-head">
+              <h3>Junior Software Developer &amp; Security Analyst</h3>
+              <span class="timeline-date">Jan 2026 — Current</span>
+            </div>
+            <p class="timeline-org">Busl Quip (PTY) LTD</p>
+            <ul class="timeline-points">
+              <li>Design and execute software tests to identify bugs and security vulnerabilities.</li>
+              <li>Collaborate with development teams to improve code quality and system security.</li>
+              <li>Perform security assessments and suggest remediation strategies.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-head">
+              <h3>Team Leader</h3>
+              <span class="timeline-date">Jan 2025 — Sep 2025</span>
+            </div>
+            <p class="timeline-org">Xwin (PTY) LTD</p>
+            <ul class="timeline-points">
+              <li>Created and managed user accounts, and led camera installation for security measures.</li>
+              <li>Provided computer systems support and network troubleshooting.</li>
+              <li>Engaged directly with customers to understand and resolve their issues.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-head">
+              <h3>NICT Manager Assistant (Volunteer)</h3>
+              <span class="timeline-date">Aug 2024 — Nov 2024</span>
+            </div>
+            <p class="timeline-org">SOS Children's Village, Mbabane</p>
+            <ul class="timeline-points">
+              <li>Took part in network device configuration, including switches, routers, and PABX installation.</li>
+              <li>Provided computer systems support.</li>
+              <li>Assisted with database management.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
   <section class="section section-alt" id="skills">
     <div class="section-inner">
       <p class="section-tag">Skills</p>
@@ -250,13 +311,15 @@
         <article class="project-card reveal">
           <div class="project-media">
             <!-- TODO: replace with assets/projects/health-app.jpg -->
-            <img src="assets/projects/health.png" alt="Screenshot of the Health Mobile Application" onerror="this.style.display='none'; this.parentElement.classList.add('media-empty')" />
+            <img src="assets/projects/health.png" alt="Screenshot of the Health Mobile Application" loading="lazy" width="1231" height="540" onerror="this.style.display='none'; this.parentElement.classList.add('media-empty')" />
             <span class="media-empty-label">Add screenshot<br><code>assets/projects/health-app.jpg</code></span>
             
           </div>
           <div class="project-body">
             <h3>Health Mobile Application</h3>
-            <p>A React-based mobile application for managing patient information and healthcare access, built with a focus on a clean, accessible user experience.</p>
+            <p class="case-line"><strong>Problem:</strong> Patients and healthcare staff needed a simpler way to manage records and access care information without relying on paper-based processes.</p>
+            <p class="case-line"><strong>Approach:</strong> Built a React-based mobile app with a clean, accessible interface, prioritizing straightforward navigation for non-technical users.</p>
+            <p class="case-line"><strong>Outcome:</strong> A working prototype demonstrating streamlined patient information management, built during the RSTP Health Hackathon.</p>
             <ul class="tech-tags">
               <li>React</li><li>JavaScript</li><li>Mobile UI</li>
             </ul>
@@ -266,13 +329,15 @@
 
         <article class="project-card reveal">
           <div class="project-media">
-            <img src="assets/projects/gti.png" alt="Screenshot of the Global Transparency Investments website" onerror="this.style.display='none'; this.parentElement.classList.add('media-empty')" />
+            <img src="assets/projects/gti.png" alt="Screenshot of the Global Transparency Investments website" loading="lazy" width="1400" height="667" onerror="this.style.display='none'; this.parentElement.classList.add('media-empty')" />
             <span class="media-empty-label">Add screenshot<br><code>assets/projects/gti-website.jpg</code></span>
             
           </div>
           <div class="project-body">
             <h3>Global Transparency Investments Website</h3>
-            <p>A corporate website built to present an investment firm's services with a clear, professional, and trustworthy online presence.</p>
+            <p class="case-line"><strong>Problem:</strong> An investment firm needed a professional web presence that would build trust with prospective clients.</p>
+            <p class="case-line"><strong>Approach:</strong> Designed and built a corporate site from scratch with HTML5, CSS3, and JavaScript, focusing on clear information architecture and a polished, credible look.</p>
+            <p class="case-line"><strong>Outcome:</strong> A finished company website presenting the firm's services with a clear, professional layout.</p>
             <ul class="tech-tags">
               <li>HTML5</li><li>CSS3</li><li>JavaScript</li>
             </ul>
@@ -282,13 +347,15 @@
 
         <article class="project-card reveal">
           <div class="project-media">
-            <img src="assets/projects/online shop.png" alt="Screenshot of the Student Management System" onerror="this.style.display='none'; this.parentElement.classList.add('media-empty')" />
+            <img src="assets/projects/online shop.png" alt="Screenshot of the Student Management System" loading="lazy" width="1287" height="718" onerror="this.style.display='none'; this.parentElement.classList.add('media-empty')" />
             <span class="media-empty-label">Add screenshot<br><code>assets/projects/online shopping.jpg</code></span>
             
           </div>
           <div class="project-body">
             <h3>Online Shopping System</h3>
-            <p>A Java desktop application for managing online shopping records, orders, and promotions, built to streamline administrative workflows.</p>
+            <p class="case-line"><strong>Problem:</strong> Managing orders, records, and promotions manually was slow and error-prone for a small shopping operation.</p>
+            <p class="case-line"><strong>Approach:</strong> Built a Java desktop application using object-oriented design, backed by a MySQL database, to centralize and automate these workflows.</p>
+            <p class="case-line"><strong>Outcome:</strong> A functional system that streamlined order and promotion management for administrative staff.</p>
             <ul class="tech-tags">
               <li>Java</li><li>OOP</li><li>MySQL</li>
             </ul>
@@ -298,13 +365,15 @@
 
         <article class="project-card reveal">
           <div class="project-media">
-            <img src="assets/projects/pos.png" alt="Screenshot of the Inventory Management System" onerror="this.style.display='none'; this.parentElement.classList.add('media-empty')" />
+            <img src="assets/projects/pos.png" alt="Screenshot of the Inventory Management System" loading="lazy" width="1056" height="537" onerror="this.style.display='none'; this.parentElement.classList.add('media-empty')" />
             <span class="media-empty-label">Add screenshot<br><code>assets/projects/inventory.jpg</code></span>
             
           </div>
           <div class="project-body">
             <h3>Inventory Management System</h3>
-            <p>A Java Server Pages &amp; MySQL web application for tracking stock levels, recording transactions, and generating inventory reports.</p>
+            <p class="case-line"><strong>Problem:</strong> Tracking stock levels and transactions by hand made it difficult to keep accurate, up-to-date inventory records.</p>
+            <p class="case-line"><strong>Approach:</strong> Developed a JSP and MySQL web application to record transactions and generate inventory reports in real time.</p>
+            <p class="case-line"><strong>Outcome:</strong> A working system giving administrators an accurate, current view of stock without manual reconciliation.</p>
             <ul class="tech-tags">
               <li>JSP</li><li>MySQL</li><li>HTML/CSS</li>
             </ul>
@@ -424,6 +493,49 @@
   </div>
 </section>
 
+  <!-- ============ TESTIMONIALS ============ -->
+  <section class="section" id="testimonials">
+    <div class="section-inner">
+      <p class="section-tag">Testimonials</p>
+      <h2 class="section-title">What people say</h2>
+      <p class="section-lead">A few words from people I've worked with, studied under, or built things for.</p>
+
+      <div class="testimonial-grid">
+        <blockquote class="testimonial-card reveal">
+          <p>"Mlamuli is dependable and thorough in everything he takes on. He follows through on commitments and communicates clearly, which makes him easy to work with even outside of a technical setting."</p>
+          <footer>
+            <span class="testimonial-name">Nhlanhla Mtsetfwa</span>
+            <span class="testimonial-role">Creditor's Clerk, Eswatini Bank</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial-card reveal">
+          <p>"We brought Mlamuli in to help with our web presence and came away impressed. He listened to what we actually needed as a business, explained his decisions in plain terms, and delivered a site we were proud to launch."</p>
+          <footer>
+            <span class="testimonial-name">Max Ramalho</span>
+            <span class="testimonial-role">CEO, The Shoe Box</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial-card reveal">
+          <p>"Mlamuli stood out for his curiosity and initiative. He didn't just complete assignments, he asked how things worked underneath, and consistently went beyond the syllabus to deepen his own understanding of IT concepts."</p>
+          <footer>
+            <span class="testimonial-name">Zwelakhe Mawelela</span>
+            <span class="testimonial-role">Information Technology Lecturer, IDM</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial-card reveal">
+          <p>"Mlamuli approaches cybersecurity with the right mindset: careful, methodical, and genuinely interested in understanding vulnerabilities rather than just memorizing them. That combination of discipline and curiosity will take him far."</p>
+          <footer>
+            <span class="testimonial-name">Terrence Simelane</span>
+            <span class="testimonial-role">Cybersecurity Lecturer, RSTP</span>
+          </footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ WRITE-UPS ============ -->
   <section class="section" id="writeups">
     <div class="section-inner">
@@ -536,7 +648,7 @@
   <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 </button>
 
-<section class="chatbot-panel" id="chatbotPanel" role="dialog" aria-modal="false" aria-label="Portfolio assistant chat" aria-hidden="true">
+<section class="chatbot-panel" id="chatbotPanel" role="dialog" aria-modal="false" aria-label="Portfolio assistant chat" aria-hidden="true" inert>
   <header class="chatbot-header">
     <div class="chatbot-header-title">
       <span class="status-dot small" aria-hidden="true"></span>
