@@ -174,3 +174,33 @@ contactForm.addEventListener('submit', async (e) => {
     formStatus.classList.add('err');
   }
 });
+
+// ===================================================================
+// TESTIMONIALS — infinite sideways marquee
+// ===================================================================
+(() => {
+  const track = document.getElementById('testimonialTrack');
+  if (!track) return;
+
+  // Duplicate the card set once so the CSS animation (translateX -50%) loops seamlessly.
+  const originalCards = Array.from(track.children);
+  originalCards.forEach(card => {
+    const clone = card.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    clone.setAttribute('inert', '');
+    track.appendChild(clone);
+  });
+
+  // Pause the marquee on keyboard focus so keyboard users aren't chasing a moving target.
+  track.addEventListener('focusin', () => track.classList.add('is-paused'));
+  track.addEventListener('focusout', () => track.classList.remove('is-paused'));
+
+  // Pause on touch (mobile hover doesn't exist) while the user is reading/dragging.
+  const marquee = document.getElementById('testimonialMarquee');
+  if (marquee) {
+    marquee.addEventListener('touchstart', () => track.classList.add('is-paused'), { passive: true });
+    marquee.addEventListener('touchend', () => {
+      setTimeout(() => track.classList.remove('is-paused'), 1500);
+    }, { passive: true });
+  }
+})();

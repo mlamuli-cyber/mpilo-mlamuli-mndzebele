@@ -397,12 +397,29 @@ code{ font-family: var(--font-mono); }
 @media (max-width: 560px){ .cert-grid{ grid-template-columns: 1fr; } }
 
 /* ===================================================================
-   TESTIMONIALS
+   TESTIMONIALS — sideways auto-scrolling marquee
 =================================================================== */
-.testimonial-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.testimonial-marquee{
+  position: relative; width: 100%; overflow: hidden; padding: 10px 0 6px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.testimonial-track{
+  display: flex; gap: 22px; width: max-content;
+  animation: marquee-scroll 42s linear infinite;
+}
+.testimonial-marquee:hover .testimonial-track,
+.testimonial-track.is-paused{ animation-play-state: paused; }
+
+@keyframes marquee-scroll{
+  from{ transform: translateX(0); }
+  to{ transform: translateX(-50%); }
+}
+
 .testimonial-card{
   margin: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
   padding: 26px; position: relative; transition: transform .3s var(--ease), border-color .3s;
+  flex: 0 0 380px; width: 380px;
 }
 .testimonial-card:hover{ transform: translateY(-4px); border-color: var(--accent); }
 .testimonial-card::before{
@@ -414,7 +431,15 @@ code{ font-family: var(--font-mono); }
 .testimonial-name{ font-size: 14px; color: var(--text); font-weight: 600; }
 .testimonial-role{ font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); }
 
-@media (max-width: 720px){ .testimonial-grid{ grid-template-columns: 1fr; } }
+@media (max-width: 560px){
+  .testimonial-card{ flex-basis: 300px; width: 300px; padding: 20px; }
+  .testimonial-track{ animation-duration: 32s; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .testimonial-track{ animation: none; overflow-x: auto; scroll-snap-type: x proximity; }
+  .testimonial-card{ scroll-snap-align: start; }
+}
 
 /* ===================================================================
    WRITE-UPS
@@ -541,7 +566,9 @@ code{ font-family: var(--font-mono); }
     background: #fff !important; border: 1px solid #ccc !important; box-shadow: none !important;
     break-inside: avoid;
   }
-  .project-grid, .cert-grid, .testimonial-grid, .skills-grid{ display: block !important; }
+  .project-grid, .cert-grid, .testimonial-track, .skills-grid{ display: block !important; }
+  .testimonial-marquee{ overflow: visible !important; -webkit-mask-image: none !important; mask-image: none !important; }
+  .testimonial-track{ width: auto !important; animation: none !important; }
   .project-card, .cert-card, .testimonial-card{ margin-bottom: 14px; }
   .project-media, .media-empty-label{ display: none !important; }
   .tech-tags li, .skill-tags li{ border: 1px solid #999 !important; background: none !important; color: #111 !important; }
