@@ -1,0 +1,81 @@
+/* ===========================================================
+   Beacon — Design Tokens
+   Concept: a technician's ops board / dispatch log. Status is
+   always shown through the same "signal" color system, at both
+   the scale of a single task (a signal bar) and the whole day
+   (the progress strip in the topbar).
+   =========================================================== */
+
+:root {
+  /* ---- Type ---- */
+  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+  /* ---- Radius ---- */
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --dur-fast: 120ms;
+  --dur-med: 220ms;
+
+  /* ---- Shadow ---- */
+  --shadow-sm: 0 1px 2px rgba(19, 26, 31, 0.06);
+  --shadow-md: 0 6px 20px -4px rgba(19, 26, 31, 0.16);
+  --shadow-lg: 0 16px 44px -8px rgba(19, 26, 31, 0.28);
+
+  /* ---- Signal colors (status system — same hues everywhere) ---- */
+  --signal-red: #c4432b;
+  --signal-red-soft: #f7e2dc;
+  --signal-amber: #d9820f;
+  --signal-amber-soft: #f8e8cf;
+  --signal-green: #3b7a57;
+  --signal-green-soft: #dcece2;
+  --signal-blue: #2c5f8a;
+  --signal-blue-soft: #dde8f0;
+  --signal-violet: #5b4d8a;
+  --signal-violet-soft: #e5e1f0;
+
+  /* ---- Light theme (default) ---- */
+  --bg: #eef1f0;
+  --surface: #ffffff;
+  --surface-alt: #f4f6f5;
+  --surface-sunken: #e7ebe9;
+  --border: #d7dcda;
+  --border-strong: #b9c1be;
+  --ink: #131a1f;
+  --ink-soft: #4b5a5e;
+  --ink-faint: #7d8a8c;
+  --rail-bg: #161d21;
+  --rail-ink: #cfd8d6;
+  --rail-ink-dim: #7f8c8a;
+  --rail-active: #232c31;
+  --focus-ring: #2c5f8a;
+}
+
+[data-theme='dark'] {
+  --bg: #0f1416;
+  --surface: #161d21;
+  --surface-alt: #1b2327;
+  --surface-sunken: #10161a;
+  --border: #2a3338;
+  --border-strong: #3a454b;
+  --ink: #eef0ee;
+  --ink-soft: #a7b2b3;
+  --ink-faint: #6f7a7c;
+  --rail-bg: #0b1012;
+  --rail-ink: #d4dcda;
+  --rail-ink-dim: #6b7678;
+  --rail-active: #1a2226;
+  --focus-ring: #6d9cc4;
+
+  --signal-red-soft: #3a201c;
+  --signal-amber-soft: #3a2c14;
+  --signal-green-soft: #1c2f24;
+  --signal-blue-soft: #1b2732;
+  --signal-violet-soft: #241f36;
+}

@@ -1,0 +1,106 @@
+/* ===========================================================
+   Beacon — Auth screens
+   Signature moment: a slow radar-style sweep behind the beacon
+   mark, the one deliberate animation in the whole product.
+   =========================================================== */
+
+.auth-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--rail-bg);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-beacon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 640px;
+  height: 640px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.auth-beacon::before,
+.auth-beacon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(216, 137, 15, 0.16);
+}
+.auth-beacon::after {
+  inset: 90px;
+  border-color: rgba(216, 137, 15, 0.1);
+}
+.auth-sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(216, 137, 15, 0.22), transparent 22%);
+  animation: sweep 7s linear infinite;
+}
+@keyframes sweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .auth-sweep { animation: none; }
+}
+
+.auth-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 372px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 30px 28px 26px;
+}
+[data-theme='dark'] .auth-card { border: 1px solid var(--border); }
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.auth-brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--rail-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.auth-brand h1 { font-size: 1.15rem; }
+.auth-brand-tagline { font-size: 0.76rem; color: var(--ink-faint); margin-top: 1px; }
+
+.auth-form { display: flex; flex-direction: column; gap: 14px; margin-top: 4px; }
+
+.auth-switch {
+  text-align: center;
+  font-size: 0.83rem;
+  color: var(--ink-soft);
+  margin-top: 18px;
+}
+.auth-switch button {
+  color: var(--signal-blue);
+  font-weight: 600;
+  text-decoration: underline;
+}
+[data-theme='dark'] .auth-switch button { color: #7fb0d8; }
+
+.auth-note {
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  text-align: center;
+  margin-top: 16px;
+  line-height: 1.5;
+}
