@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+    } catch (e) {}
+  })();
+</script>
+<title>Log a Ticket · Help Desk</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%232f5fdd'/%3E%3Cpath d='M12 4 5 7.5V12c0 4.2 3 7.6 7 8 4-.4 7-3.8 7-8V7.5L12 4Z' fill='none' stroke='white' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='m9 12.2 1.8 1.8L15 10' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/demo.css" />
+<script src="js/demo-data.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="js/ui.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <div id="demo-banner-root"></div>
+    <div id="nav-root"></div>
+    <main class="container container-narrow">
+      <div class="page-header">
+        <div>
+          <h1>Log a Ticket</h1>
+          <p class="muted">Describe the issue and we'll route it to the right department.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div id="alert-root"></div>
+        <div id="form-wrap"></div>
+      </div>
+    </main>
+    <div id="footer-root"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var HD = window.HD;
+      var user = HD.requireLogin();
+      if (!user) return;
+      window.HDUI.mountChrome(user, 'new-ticket');
+
+      function esc(s) { return HD.escapeHtml(s); }
+      var alertRoot = document.getElementById('alert-root');
+      var departments = HD.departmentsFor(user);
+
+      if (departments.length === 0) {
+        document.getElementById('form-wrap').innerHTML =
+          '<div class="empty-state"><p>There\'s no support channel open for your account yet. Please contact your administrator.</p></div>';
+        return;
+      }
+
+      var deptOptions = departments.map(function (d, i) {
+        return '<option value="' + d.id + '"' + (i === 0 ? ' selected' : '') + '>' + esc(d.name) + '</option>';
+      }).join('');
+
+      var priorityOptionsHtml = ['Low', 'Medium', 'High', 'Urgent'].map(function (p) {
+        return '<option value="' + p + '"' + (p === 'Medium' ? ' selected' : '') + '>' + p + '</option>';
+      }).join('');
+
+      var hint = user.role === 'client'
+        ? 'Choose whichever best matches your issue.'
+        : "Most requests belong in IT Department — change this only if it's routing elsewhere (e.g. Facilities, HR).";
+
+      document.getElementById('form-wrap').innerHTML =
+        '<form id="new-ticket-form" class="stacked-form">' +
+        '<label for="title">Title</label>' +
+        '<input type="text" id="title" name="title" placeholder="Short summary of the issue" required />' +
+        '<label for="department_id">Department</label>' +
+        '<select id="department_id" name="department_id" required>' + deptOptions + '</select>' +
+        '<span class="field-hint">' + hint + '</span>' +
+        '<label for="priority">Priority</label>' +
+        '<select id="priority" name="priority">' + priorityOptionsHtml + '</select>' +
+        '<label for="description">Description</label>' +
+        '<textarea id="description" name="description" rows="6" placeholder="What\'s happening? Include any relevant details." required></textarea>' +
+        '<div class="form-actions">' +
+        '<a href="' + HD.homeFor(user) + '" class="btn btn-ghost">Cancel</a>' +
+        '<button type="submit" class="btn btn-primary">Submit Ticket</button>' +
+        '</div></form>';
+
+      document.getElementById('new-ticket-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var result = HD.createTicket({
+          title: document.getElementById('title').value,
+          department_id: document.getElementById('department_id').value,
+          priority: document.getElementById('priority').value.toLowerCase(),
+          description: document.getElementById('description').value,
+          userId: user.id,
+        });
+        if (!result.ok) {
+          alertRoot.innerHTML = '<div class="alert alert-error">' + esc(result.error) + '</div>';
+          return;
+        }
+        window.location.href = 'ticket.html?id=' + result.ticket.id;
+      });
+    });
+  </script>
+</body>
+</html>

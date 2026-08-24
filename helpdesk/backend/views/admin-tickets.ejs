@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head', { title: 'All Tickets' }) %>
+</head>
+<body>
+  <div class="page-shell">
+  <%- include('partials/nav', { active: 'admin-tickets' }) %>
+
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1>All Tickets</h1>
+        <p class="muted">Every ticket logged across all departments.</p>
+      </div>
+    </div>
+
+    <div class="card filter-card">
+      <form method="GET" action="/admin/tickets" class="filter-form">
+        <div>
+          <label for="status">Status</label>
+          <select id="status" name="status" onchange="this.form.submit()">
+            <option value="" <%= filters.status === '' ? 'selected' : '' %>>All statuses</option>
+            <option value="Open" <%= filters.status === 'Open' ? 'selected' : '' %>>Open</option>
+            <option value="In Progress" <%= filters.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+            <option value="Done" <%= filters.status === 'Done' ? 'selected' : '' %>>Done</option>
+          </select>
+        </div>
+        <div>
+          <label for="department_id">Department</label>
+          <select id="department_id" name="department_id" onchange="this.form.submit()">
+            <option value="">All departments</option>
+            <% departments.forEach(function(d) { %>
+              <option value="<%= d.id %>" <%= String(filters.department_id) === String(d.id) ? 'selected' : '' %>><%= d.name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div>
+          <label for="assigned">Assignment</label>
+          <select id="assigned" name="assigned" onchange="this.form.submit()">
+            <option value="" <%= filters.assigned === '' ? 'selected' : '' %>>Everyone</option>
+            <option value="me" <%= filters.assigned === 'me' ? 'selected' : '' %>>Assigned to me</option>
+            <option value="unassigned" <%= filters.assigned === 'unassigned' ? 'selected' : '' %>>Unassigned</option>
+          </select>
+        </div>
+        <% if (filters.status || filters.department_id || filters.assigned) { %>
+          <a href="/admin/tickets" class="link">Clear filters</a>
+        <% } %>
+        <input type="search" class="search-input filter-search" placeholder="Search tickets..." data-table-search="#all-tickets-table" />
+      </form>
+    </div>
+
+    <div class="card">
+      <% if (tickets.length === 0) { %>
+        <div class="empty-state"><p>No tickets match these filters.</p></div>
+      <% } else { %>
+        <table class="table" id="all-tickets-table">
+          <thead>
+            <tr>
+              <th>Ticket</th>
+              <th>Department</th>
+              <th>Reported By</th>
+              <th>Assigned To</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Logged</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% tickets.forEach(function(t) { %>
+              <tr onclick="window.location='/tickets/<%= t.id %>'" class="clickable-row">
+                <td>
+                  <span class="ticket-number"><%= t.number %></span>
+                  <span class="ticket-title-cell"><%= t.title %></span>
+                </td>
+                <td><%= t.department_name %></td>
+                <td>
+                  <%= t.created_by_name %>
+                  <% if (t.created_by_role === 'client') { %><span class="badge badge-client">Client</span><% } %>
+                </td>
+                <td><% if (t.assignee_name) { %><%= t.assignee_name %><% } else { %><span class="badge badge-unassigned">Unassigned</span><% } %></td>
+                <td><span class="badge priority-<%= t.priority.toLowerCase() %>"><%= t.priority %></span></td>
+                <td><span class="badge status-<%= t.status.replace(' ', '-').toLowerCase() %>"><%= t.status %></span></td>
+                <td class="muted" title="<%= t.created_at %>"><%= t.age %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <p class="muted search-empty" data-search-empty hidden>No tickets match your search.</p>
+      <% } %>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>
+  </div>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head', { title: 'IT Help Desk' }) %>
+</head>
+<body class="landing-page">
+  <div class="page-shell">
+    <header class="public-nav">
+      <div class="public-nav-inner">
+        <a class="brand" href="/">
+          <span class="brand-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6.5V12c0 5.2 3.8 9.5 9 10 5.2-.5 9-4.8 9-10V6.5L12 2Z"/><path d="m9 12 2 2 4-4"/></svg>
+          </span>
+          <span class="brand-name">Help Desk</span>
+        </a>
+        <nav class="public-links">
+          <a href="#how-it-works">How it works</a>
+          <a href="#benefits">Why Help Desk</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <a href="/login" class="btn btn-primary">Log In</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="tech-pattern" aria-hidden="true"></div>
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <span class="hero-eyebrow">Support Desk for Your Team &amp; Your Clients</span>
+            <h1 class="hero-title">Every issue,<br />on its way to someone.</h1>
+            <p class="hero-sub">
+              Employees log internal issues. Clients report problems with the services you deliver.
+              Both land in one system, get auto-assigned to whichever technician has the lightest
+              load, and are tracked from <strong>Open</strong> to <strong>Done</strong> in the open —
+              no inbox where requests go to wait.
+            </p>
+            <div class="hero-actions">
+              <a href="/login" class="btn btn-primary btn-lg">Log In to Help Desk</a>
+              <a href="#how-it-works" class="btn btn-ghost btn-lg">See how it works</a>
+            </div>
+            <p class="hero-footnote">Accounts are set up by your administrator — there's no self-signup.</p>
+          </div>
+
+          <div class="hero-visual" aria-hidden="true">
+            <div class="mockup-window mockup-window-ghost"></div>
+            <div class="mockup-window">
+              <div class="mockup-titlebar">
+                <span class="mockup-dot mockup-dot-red"></span>
+                <span class="mockup-dot mockup-dot-yellow"></span>
+                <span class="mockup-dot mockup-dot-green"></span>
+                <span class="mockup-url">helpdesk.local/admin</span>
+              </div>
+              <div class="mockup-body">
+                <div class="mockup-topbar">
+                  <span class="mockup-crumb mockup-crumb-active">Overview</span>
+                  <span class="mockup-crumb">All Tickets</span>
+                  <span class="mockup-crumb">Users</span>
+                </div>
+                <div class="mockup-stats">
+                  <div class="mockup-stat mockup-stat-open"><span class="n">6</span><span class="l">Open</span></div>
+                  <div class="mockup-stat mockup-stat-progress"><span class="n">3</span><span class="l">In Progress</span></div>
+                  <div class="mockup-stat mockup-stat-done"><span class="n">18</span><span class="l">Done</span></div>
+                </div>
+                <div class="mockup-rows">
+                  <div class="mockup-row">
+                    <span class="mockup-avatar">JD</span>
+                    <span class="mockup-row-title">VPN won't connect</span>
+                    <span class="mockup-badge mockup-badge-high">High</span>
+                    <span class="mockup-pill mockup-pill-open">Open</span>
+                  </div>
+                  <div class="mockup-row">
+                    <span class="mockup-avatar">TN</span>
+                    <span class="mockup-row-title">Invoice access issue</span>
+                    <span class="mockup-badge mockup-badge-medium">Medium</span>
+                    <span class="mockup-pill mockup-pill-progress">In Progress</span>
+                  </div>
+                  <div class="mockup-row">
+                    <span class="mockup-avatar">SK</span>
+                    <span class="mockup-row-title">New laptop request</span>
+                    <span class="mockup-badge mockup-badge-low">Low</span>
+                    <span class="mockup-pill mockup-pill-done">Done</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-number"><%= stats.resolvedCount %></span>
+            <span class="hero-stat-label">Tickets Resolved</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-number"><%= stats.departmentCount %></span>
+            <span class="hero-stat-label">Departments Covered</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-number"><%= stats.staffCount %></span>
+            <span class="hero-stat-label">Staff Ready to Help</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust-bar">
+        <div class="trust-bar-inner">
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            Hashed, never-shared passwords
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Strict role-based access
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7Z"/></svg>
+            Full, timestamped audit trail
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            Real-time status, always
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="how-it-works">
+        <div class="section-inner">
+          <span class="section-eyebrow">How it works</span>
+          <h2 class="section-heading">One system, two front doors, one clear path to resolved.</h2>
+
+          <div class="flow-sources">
+            <div class="flow-source-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              Your team — full department directory
+            </div>
+            <div class="flow-source-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+              Your clients — client-facing departments only
+            </div>
+          </div>
+
+          <div class="timeline">
+            <div class="timeline-step">
+              <span class="timeline-number">1</span>
+              <h3>Submit a ticket</h3>
+              <p>Describe the issue and pick a department. Employees see every department; clients only see the ones opened up to them.</p>
+            </div>
+            <div class="timeline-step">
+              <span class="timeline-number">2</span>
+              <h3>Auto-assigned to a technician</h3>
+              <p>Help Desk balances the load across the department's team automatically — no single inbox, no waiting to be triaged.</p>
+            </div>
+            <div class="timeline-step">
+              <span class="timeline-number">3</span>
+              <h3>Worked, with visible status</h3>
+              <p>The technician updates status as they go. You watch it move from Open to In Progress without chasing anyone.</p>
+            </div>
+            <div class="timeline-step">
+              <span class="timeline-number">4</span>
+              <h3>Marked Done</h3>
+              <p>Resolved and logged permanently, with the full comment history attached for anyone who needs it later.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="benefits">
+        <div class="section-inner">
+          <span class="section-eyebrow">Why Help Desk</span>
+          <h2 class="section-heading">Everything a support queue needs, nothing it doesn't.</h2>
+
+          <div class="bento-grid">
+            <div class="bento-card bento-card-large">
+              <div class="bento-text">
+                <span class="benefit-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8.5 7.5 15.5 16.5M6 9v3a3 3 0 0 0 3 3h1"/></svg>
+                </span>
+                <h3>Smart Ticket Routing</h3>
+                <p>New tickets go to whichever technician on the team currently has the lightest workload, so requests spread out instead of stacking up on one person.</p>
+              </div>
+              <div class="bento-visual load-bars" aria-hidden="true">
+                <div class="load-bar"><span class="load-avatar">MJ</span><span class="load-track"><span class="load-fill" style="width: 40%;"></span></span></div>
+                <div class="load-bar"><span class="load-avatar">RK</span><span class="load-track"><span class="load-fill" style="width: 58%;"></span></span></div>
+                <div class="load-bar"><span class="load-avatar">TN</span><span class="load-track"><span class="load-fill" style="width: 34%;"></span></span></div>
+              </div>
+            </div>
+
+            <div class="bento-card bento-card-large">
+              <div class="bento-text">
+                <span class="benefit-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                </span>
+                <h3>Real-Time Status Tracking</h3>
+                <p>Every ticket carries a clear status, so you always know exactly where a request stands without chasing anyone for an update.</p>
+              </div>
+              <div class="bento-visual status-track" aria-hidden="true">
+                <span class="status-track-line"></span>
+                <span class="status-track-node status-track-node-done" style="left: 12%;"></span>
+                <span class="status-track-node status-track-node-done" style="left: 38%;"></span>
+                <span class="status-track-node status-track-node-current" style="left: 64%;"></span>
+                <span class="status-track-node" style="left: 90%;"></span>
+                <div class="status-track-labels"><span>Open</span><span>In Progress</span><span>Done</span></div>
+              </div>
+            </div>
+
+            <div class="bento-card">
+              <span class="benefit-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7Z"/></svg>
+              </span>
+              <h3>One Place for Everything</h3>
+              <p>Every department, every request, every conversation lives in one searchable system — no digging through email threads.</p>
+            </div>
+            <div class="bento-card">
+              <span class="benefit-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6.5V12c0 5.2 3.8 9.5 9 10 5.2-.5 9-4.8 9-10V6.5L12 2Z"/></svg>
+              </span>
+              <h3>Built for Accountability</h3>
+              <p>Every ticket has a named owner and a logged history. Nothing sits anonymous, nothing falls through the cracks.</p>
+            </div>
+            <div class="bento-card">
+              <span class="benefit-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+              </span>
+              <h3>Light or Dark, Your Call</h3>
+              <p>Switch anytime from the top bar. Your preference is remembered on this device, whatever your OS is set to.</p>
+            </div>
+            <div class="bento-card">
+              <span class="benefit-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+              </span>
+              <h3>Clients Welcome</h3>
+              <p>Open a dedicated Client Support channel and let the people you serve report issues directly and securely.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="section-inner section-inner-narrow">
+          <span class="section-eyebrow">FAQ</span>
+          <h2 class="section-heading">Good to know.</h2>
+
+          <div class="faq-list">
+            <details class="faq-item" open>
+              <summary>Who can create an account?</summary>
+              <p>Only an administrator. There's no public sign-up — you'll be given a username and password directly by whoever manages your Help Desk.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Can our clients really use this?</summary>
+              <p>Yes. Client accounts only see departments an admin has explicitly marked "client-facing," like Client Support — every internal department stays out of view.</p>
+            </details>
+            <details class="faq-item">
+              <summary>How does ticket assignment actually work?</summary>
+              <p>The moment a ticket is submitted, it's handed to whichever technician in that department currently has the fewest active tickets — so work stays spread out instead of piling onto one person.</p>
+            </details>
+            <details class="faq-item">
+              <summary>What if nobody's assigned yet?</summary>
+              <p>It's marked "Unassigned" and any technician in that department can claim it, or an admin can hand it to someone directly.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Is my information secure?</summary>
+              <p>Passwords are hashed and never stored in plain text, sessions are managed server-side, and every role — Admin, Technician, User, Client — only ever sees what it's permitted to.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-banner">
+        <div class="tech-pattern" aria-hidden="true"></div>
+        <div class="cta-banner-inner">
+          <h2>Ready to get support?</h2>
+          <p>Sign in with the account your administrator set up for you.</p>
+          <a href="/login" class="btn btn-primary btn-lg">Log In to Help Desk</a>
+        </div>
+      </section>
+    </main>
+
+    <%- include('partials/footer') %>
+  </div>
+</body>
+</html>

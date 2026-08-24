@@ -1,0 +1,77 @@
+/* Demo-only additions layered on top of the real app's style.css design tokens. */
+
+.alert-info {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  border-color: #cfdcfb;
+}
+
+.demo-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 24px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  font-size: 0.83rem;
+  border-bottom: 1px solid #cfdcfb;
+}
+.demo-banner strong { font-weight: 700; }
+.demo-banner-actions { display: flex; align-items: center; gap: 14px; }
+.demo-banner a,
+.demo-banner button.link-reset {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.83rem;
+  font-family: inherit;
+}
+
+.quick-login-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 18px 0 4px;
+}
+.quick-login-card {
+  text-align: left;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+.quick-login-card:hover { border-color: var(--color-primary); background: var(--color-primary-soft); }
+.quick-login-role { display: block; font-weight: 700; font-size: 0.82rem; color: var(--color-text); }
+.quick-login-name { display: block; font-size: 0.78rem; color: var(--color-muted); margin-top: 1px; }
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 4px;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+@media (max-width: 560px) {
+  .quick-login-grid { grid-template-columns: 1fr; }
+  .demo-banner { padding: 10px 16px; }
+}

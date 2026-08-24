@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head', { title: 'Users' }) %>
+</head>
+<body>
+  <div class="page-shell">
+  <%- include('partials/nav', { active: 'admin-users' }) %>
+
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1>Users</h1>
+        <p class="muted">Create accounts and set their passwords yourself. Users cannot change their own username or password.</p>
+      </div>
+    </div>
+
+    <% if (error) { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
+
+    <% if (created) { %>
+      <div class="alert alert-success">
+        <% if (created.passwordReset) { %>
+          Password updated for <strong><%= created.full_name %></strong> (<%= created.username %>). Share the new password with them directly.
+        <% } else { %>
+          Account created for <strong><%= created.full_name %></strong> (<%= created.username %>). Share the username and password you set with them directly.
+        <% } %>
+      </div>
+    <% } %>
+
+    <div class="two-col">
+      <div class="card">
+        <h2 class="section-title">Add a User</h2>
+        <form method="POST" action="/admin/users" class="stacked-form">
+          <label for="full_name">Full name</label>
+          <input type="text" id="full_name" name="full_name" placeholder="e.g. Jane Dlamini" required />
+
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="e.g. jdlamini" required />
+
+          <label for="password">Password</label>
+          <div class="password-field">
+            <input type="password" id="password" name="password" placeholder="Set a password (min. 6 characters)" minlength="6" required />
+            <button type="button" class="pw-toggle" aria-label="Show password" tabindex="-1"></button>
+          </div>
+
+          <label for="role">Role</label>
+          <select id="role" name="role">
+            <option value="user" selected>User — employee, logs tickets</option>
+            <option value="client">Client — external, logs tickets</option>
+            <option value="technician">Technician — works tickets</option>
+            <option value="admin">Admin — full access</option>
+          </select>
+
+          <label for="company">Company <span class="field-optional">(clients only)</span></label>
+          <input type="text" id="company" name="company" placeholder="e.g. Acme Corp" />
+
+          <label for="department_id">Department <span class="field-optional">(for technicians)</span></label>
+          <select id="department_id" name="department_id">
+            <option value="">No department</option>
+            <% departments.forEach(function(d) { %>
+              <option value="<%= d.id %>"><%= d.name %><%= d.client_facing ? ' (client-facing)' : '' %></option>
+            <% }) %>
+          </select>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+              <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              Create User
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="card-header-row">
+          <h2 class="section-title">All Users</h2>
+          <input type="search" class="search-input" placeholder="Search users..." data-table-search="#users-table" />
+        </div>
+        <table class="table" id="users-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Role</th>
+              <th>Department / Company</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(function(u) { %>
+              <tr>
+                <td>
+                  <span class="avatar avatar-sm role-avatar-<%= u.role %>"><%= u.full_name.trim().split(/\s+/).map(function(p){return p[0];}).slice(0,2).join('').toUpperCase() %></span>
+                  <%= u.full_name %>
+                </td>
+                <td class="muted"><%= u.username %></td>
+                <td><span class="role-pill role-<%= u.role %>"><%= u.role %></span></td>
+                <td class="muted"><%= u.role === 'client' ? (u.company || '—') : (u.department_name || '—') %></td>
+                <td class="row-actions">
+                  <details class="reset-pw">
+                    <summary class="btn btn-ghost btn-sm">Set Password</summary>
+                    <form method="POST" action="/admin/users/<%= u.id %>/reset-password" class="reset-pw-form">
+                      <div class="password-field">
+                        <input type="password" name="password" placeholder="New password" minlength="6" required />
+                        <button type="button" class="pw-toggle" aria-label="Show password" tabindex="-1"></button>
+                      </div>
+                      <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                    </form>
+                  </details>
+                  <% if (currentUser.id !== u.id) { %>
+                    <form method="POST" action="/admin/users/<%= u.id %>/delete" onsubmit="return confirm('Delete <%= u.full_name %>?');">
+                      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <p class="muted search-empty" data-search-empty hidden>No users match your search.</p>
+      </div>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>
+  </div>
+</body>
+</html>

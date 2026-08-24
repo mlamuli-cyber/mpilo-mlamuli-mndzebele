@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+    } catch (e) {}
+  })();
+</script>
+<title>Sign In · Help Desk</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%232f5fdd'/%3E%3Cpath d='M12 4 5 7.5V12c0 4.2 3 7.6 7 8 4-.4 7-3.8 7-8V7.5L12 4Z' fill='none' stroke='white' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='m9 12.2 1.8 1.8L15 10' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/demo.css" />
+<script src="js/demo-data.js" defer></script>
+<script src="js/app.js" defer></script>
+</head>
+<body class="auth-body">
+  <div class="tech-pattern" aria-hidden="true"></div>
+  <div class="auth-wrap">
+    <a href="index.html" class="auth-back">&larr; Back to home</a>
+    <div class="auth-card">
+      <div class="auth-brand">
+        <span class="brand-mark brand-mark-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6.5V12c0 5.2 3.8 9.5 9 10 5.2-.5 9-4.8 9-10V6.5L12 2Z"/><path d="m9 12 2 2 4-4"/></svg>
+        </span>
+        <h1>Help Desk</h1>
+      </div>
+      <p class="auth-sub">Sign in with the username and password provided by your administrator.</p>
+
+      <div id="login-error"></div>
+
+      <form id="login-form" class="auth-form" autocomplete="off" data-clear-on-load>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" autocomplete="off" required autofocus />
+
+        <label for="password">Password</label>
+        <div class="password-field">
+          <input type="password" id="password" name="password" autocomplete="off" required />
+          <button type="button" class="pw-toggle" aria-label="Show password" tabindex="-1"></button>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+      </form>
+
+      <div class="auth-divider">or try a demo account</div>
+      <div class="quick-login-grid">
+        <button type="button" class="quick-login-card" data-username="admin" data-password="admin123">
+          <span class="quick-login-role">Admin</span>
+          <span class="quick-login-name">Full access, manage everything</span>
+        </button>
+        <button type="button" class="quick-login-card" data-username="sipho.t" data-password="demo123">
+          <span class="quick-login-role">Technician</span>
+          <span class="quick-login-name">Works and resolves tickets</span>
+        </button>
+        <button type="button" class="quick-login-card" data-username="thabo.s" data-password="demo123">
+          <span class="quick-login-role">User (employee)</span>
+          <span class="quick-login-name">Logs internal tickets</span>
+        </button>
+        <button type="button" class="quick-login-card" data-username="amanda.client" data-password="demo123">
+          <span class="quick-login-role">Client</span>
+          <span class="quick-login-name">Acme Logistics support contact</span>
+        </button>
+      </div>
+
+      <p class="auth-footnote">This is a self-contained demo — no real account needed. Don't have an account in a real deployment? Contact your administrator to get set up.</p>
+    </div>
+    <p class="auth-copyright">&copy; <span id="year"></span> Help Desk · Internal Support Platform</p>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Already signed in? Bounce straight to the right dashboard.
+      var existing = window.HD.getSession();
+      if (existing) {
+        window.location.href = window.HD.homeFor(existing);
+        return;
+      }
+
+      var form = document.getElementById('login-form');
+      var errorRoot = document.getElementById('login-error');
+
+      function showError(message) {
+        errorRoot.innerHTML = '<div class="alert alert-error">' + window.HD.escapeHtml(message) + '</div>';
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        var result = window.HD.login(username, password);
+        if (!result.ok) {
+          showError(result.error);
+          return;
+        }
+        window.location.href = window.HD.homeFor(result.user);
+      });
+
+      document.querySelectorAll('.quick-login-card').forEach(function (card) {
+        card.addEventListener('click', function () {
+          document.getElementById('username').value = card.getAttribute('data-username');
+          document.getElementById('password').value = card.getAttribute('data-password');
+          var result = window.HD.login(card.getAttribute('data-username'), card.getAttribute('data-password'));
+          if (!result.ok) {
+            showError(result.error);
+            return;
+          }
+          window.location.href = window.HD.homeFor(result.user);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+    } catch (e) {}
+  })();
+</script>
+<title>Departments · Help Desk</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%232f5fdd'/%3E%3Cpath d='M12 4 5 7.5V12c0 4.2 3 7.6 7 8 4-.4 7-3.8 7-8V7.5L12 4Z' fill='none' stroke='white' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='m9 12.2 1.8 1.8L15 10' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/demo.css" />
+<script src="js/demo-data.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="js/ui.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <div id="demo-banner-root"></div>
+    <div id="nav-root"></div>
+    <main class="container">
+      <div class="page-header">
+        <div>
+          <h1>Departments</h1>
+          <p class="muted">Manage the departments users can route tickets to. Mark a department "client-facing" to open it up to your external client accounts.</p>
+        </div>
+      </div>
+
+      <div id="alert-root"></div>
+
+      <div class="two-col">
+        <div class="card">
+          <h2 class="section-title">Add a Department</h2>
+          <form id="add-department-form" class="stacked-form">
+            <label for="name">Department name</label>
+            <input type="text" id="name" name="name" placeholder="e.g. Human Resources" required />
+
+            <label class="checkbox-label">
+              <input type="checkbox" id="client_facing" name="client_facing" />
+              Client-facing — external clients can send tickets here
+            </label>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                Add Department
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2 class="section-title">All Departments</h2>
+          <div id="departments-table-wrap"></div>
+        </div>
+      </div>
+    </main>
+    <div id="footer-root"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var HD = window.HD;
+      var user = HD.requireAdmin();
+      if (!user) return;
+      window.HDUI.mountChrome(user, 'admin-departments');
+
+      function esc(s) { return HD.escapeHtml(s); }
+      var alertRoot = document.getElementById('alert-root');
+
+      function showError(message) {
+        alertRoot.innerHTML = '<div class="alert alert-error">' + esc(message) + '</div>';
+      }
+
+      function render() {
+        var departments = HD.listDepartmentsWithCounts();
+        var html;
+        if (departments.length === 0) {
+          html = '<div class="empty-state"><p>No departments yet.</p></div>';
+        } else {
+          html = '<table class="table"><thead><tr><th>Name</th><th>Access</th><th>Technicians</th><th>Users</th><th>Tickets</th><th></th></tr></thead><tbody>';
+          departments.forEach(function (d) {
+            html += '<tr>';
+            html += '<td class="ticket-title-cell">' + esc(d.name) + '</td>';
+            html += '<td>' + (d.client_facing ? '<span class="badge badge-client">Client-facing</span>' : '<span class="badge badge-internal">Internal only</span>') + '</td>';
+            html += '<td class="muted">' + d.technician_count + '</td>';
+            html += '<td class="muted">' + d.user_count + '</td>';
+            html += '<td class="muted">' + d.ticket_count + '</td>';
+            html += '<td class="row-actions">';
+            html += '<button type="button" class="btn btn-ghost btn-sm" data-toggle="' + d.id + '">' + (d.client_facing ? 'Make Internal' : 'Open to Clients') + '</button>';
+            html += '<button type="button" class="btn btn-danger btn-sm" data-delete="' + d.id + '" data-name="' + esc(d.name) + '">Delete</button>';
+            html += '</td></tr>';
+          });
+          html += '</tbody></table>';
+        }
+        document.getElementById('departments-table-wrap').innerHTML = html;
+
+        document.querySelectorAll('[data-toggle]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            HD.toggleClientFacing(btn.getAttribute('data-toggle'));
+            render();
+          });
+        });
+        document.querySelectorAll('[data-delete]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var name = btn.getAttribute('data-name');
+            if (!window.confirm("Delete the '" + name + "' department?")) return;
+            var result = HD.deleteDepartment(btn.getAttribute('data-delete'));
+            if (!result.ok) { showError(result.error); return; }
+            alertRoot.innerHTML = '';
+            render();
+          });
+        });
+      }
+
+      document.getElementById('add-department-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = document.getElementById('name').value;
+        var clientFacing = document.getElementById('client_facing').checked;
+        var result = HD.addDepartment(name, clientFacing);
+        if (!result.ok) { showError(result.error); return; }
+        alertRoot.innerHTML = '';
+        e.target.reset();
+        render();
+      });
+
+      render();
+    });
+  </script>
+</body>
+</html>

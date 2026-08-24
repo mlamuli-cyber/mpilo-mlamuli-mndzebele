@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+    } catch (e) {}
+  })();
+</script>
+<title>All Tickets · Help Desk</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%232f5fdd'/%3E%3Cpath d='M12 4 5 7.5V12c0 4.2 3 7.6 7 8 4-.4 7-3.8 7-8V7.5L12 4Z' fill='none' stroke='white' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='m9 12.2 1.8 1.8L15 10' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/demo.css" />
+<script src="js/demo-data.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="js/ui.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <div id="demo-banner-root"></div>
+    <div id="nav-root"></div>
+    <main class="container">
+      <div class="page-header">
+        <div>
+          <h1>All Tickets</h1>
+          <p class="muted">Every ticket logged across all departments.</p>
+        </div>
+      </div>
+
+      <div class="card filter-card">
+        <div class="filter-form" id="filter-form">
+          <div>
+            <label for="status">Status</label>
+            <select id="status"></select>
+          </div>
+          <div>
+            <label for="department_id">Department</label>
+            <select id="department_id"></select>
+          </div>
+          <div>
+            <label for="assigned">Assignment</label>
+            <select id="assigned"></select>
+          </div>
+          <a href="admin-tickets.html" class="link" id="clear-filters" hidden>Clear filters</a>
+          <input type="search" class="search-input filter-search" id="search-input" placeholder="Search tickets..." />
+        </div>
+      </div>
+
+      <div class="card" id="tickets-card"></div>
+    </main>
+    <div id="footer-root"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var HD = window.HD;
+      var user = HD.requireStaff();
+      if (!user) return;
+      window.HDUI.mountChrome(user, 'admin-tickets');
+
+      function esc(s) { return HD.escapeHtml(s); }
+      var params = new URLSearchParams(window.location.search);
+      var filters = {
+        status: params.get('status') || '',
+        department_id: params.get('department_id') || '',
+        assigned: params.get('assigned') || '',
+      };
+      var searchQuery = '';
+
+      var statusSel = document.getElementById('status');
+      var deptSel = document.getElementById('department_id');
+      var assignedSel = document.getElementById('assigned');
+      var clearLink = document.getElementById('clear-filters');
+      var searchInput = document.getElementById('search-input');
+
+      statusSel.innerHTML =
+        '<option value="">All statuses</option>' +
+        HD.STATUSES.map(function (s) { return '<option value="' + s + '"' + (filters.status === s ? ' selected' : '') + '>' + s + '</option>'; }).join('');
+
+      deptSel.innerHTML =
+        '<option value="">All departments</option>' +
+        HD.orderedDepartments().map(function (d) { return '<option value="' + d.id + '"' + (String(filters.department_id) === String(d.id) ? ' selected' : '') + '>' + esc(d.name) + '</option>'; }).join('');
+
+      assignedSel.innerHTML =
+        '<option value="">Everyone</option>' +
+        '<option value="me"' + (filters.assigned === 'me' ? ' selected' : '') + '>Assigned to me</option>' +
+        '<option value="unassigned"' + (filters.assigned === 'unassigned' ? ' selected' : '') + '>Unassigned</option>';
+
+      function syncUrl() {
+        var p = new URLSearchParams();
+        if (filters.status) p.set('status', filters.status);
+        if (filters.department_id) p.set('department_id', filters.department_id);
+        if (filters.assigned) p.set('assigned', filters.assigned);
+        var qs = p.toString();
+        history.replaceState(null, '', 'admin-tickets.html' + (qs ? '?' + qs : ''));
+        clearLink.hidden = !qs;
+      }
+
+      function render() {
+        var list = HD.getAllTickets({
+          status: filters.status,
+          department_id: filters.department_id,
+          assigned: filters.assigned,
+          currentUserId: user.id,
+        }).filter(function (t) { return t.title.toLowerCase().includes(searchQuery.toLowerCase()); });
+
+        var html = '';
+        if (list.length === 0) {
+          html = '<div class="empty-state"><p>No tickets match these filters.</p></div>';
+        } else {
+          html += '<table class="table" id="all-tickets-table"><thead><tr><th>Ticket</th><th>Department</th><th>Reported By</th><th>Assigned To</th><th>Priority</th><th>Status</th><th>Logged</th></tr></thead><tbody>';
+          list.forEach(function (t) {
+            html += '<tr onclick="window.location=\'ticket.html?id=' + t.id + '\'" class="clickable-row">';
+            html += '<td><span class="ticket-number">' + t.number + '</span> <span class="ticket-title-cell">' + esc(t.title) + '</span></td>';
+            html += '<td>' + esc(t.department_name) + '</td>';
+            html += '<td>' + esc(t.created_by_name) + (t.created_by_role === 'client' ? ' <span class="badge badge-client">Client</span>' : '') + '</td>';
+            html += '<td>' + (t.assignee_name ? esc(t.assignee_name) : '<span class="badge badge-unassigned">Unassigned</span>') + '</td>';
+            html += '<td><span class="badge priority-' + t.priority.toLowerCase() + '">' + t.priority + '</span></td>';
+            html += '<td><span class="badge status-' + t.status.replace(' ', '-').toLowerCase() + '">' + t.status + '</span></td>';
+            html += '<td class="muted" title="' + t.created_at + '">' + t.age + '</td></tr>';
+          });
+          html += '</tbody></table>';
+        }
+        document.getElementById('tickets-card').innerHTML = html;
+      }
+
+      statusSel.addEventListener('change', function () { filters.status = statusSel.value; syncUrl(); render(); });
+      deptSel.addEventListener('change', function () { filters.department_id = deptSel.value; syncUrl(); render(); });
+      assignedSel.addEventListener('change', function () { filters.assigned = assignedSel.value; syncUrl(); render(); });
+      searchInput.addEventListener('input', function () { searchQuery = searchInput.value.trim(); render(); });
+      clearLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        filters = { status: '', department_id: '', assigned: '' };
+        statusSel.value = ''; deptSel.value = ''; assignedSel.value = '';
+        syncUrl(); render();
+      });
+
+      syncUrl();
+      render();
+    });
+  </script>
+</body>
+</html>

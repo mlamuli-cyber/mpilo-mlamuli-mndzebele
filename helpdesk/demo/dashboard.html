@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+    } catch (e) {}
+  })();
+</script>
+<title>My Tickets · Help Desk</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%232f5fdd'/%3E%3Cpath d='M12 4 5 7.5V12c0 4.2 3 7.6 7 8 4-.4 7-3.8 7-8V7.5L12 4Z' fill='none' stroke='white' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='m9 12.2 1.8 1.8L15 10' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/demo.css" />
+<script src="js/demo-data.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="js/ui.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <div id="demo-banner-root"></div>
+    <div id="nav-root"></div>
+
+    <main class="container" id="main-content"></main>
+
+    <div id="footer-root"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var HD = window.HD;
+      var user = HD.requireLogin();
+      if (!user) return;
+      if (HD.isStaff(user)) {
+        window.location.href = 'admin.html';
+        return;
+      }
+
+      window.HDUI.mountChrome(user, 'dashboard');
+
+      var tickets = HD.getTicketsForUser(user.id);
+      var counts = HD.getCountsForUser(user.id);
+      var recentActivity = HD.getRecentActivityForUser(user.id, 5);
+
+      var hour = new Date().getHours();
+      var greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+      var firstName = user.full_name.trim().split(/\s+/)[0];
+      var openTotal = counts.Open + counts['In Progress'];
+
+      var total = counts.Open + counts['In Progress'] + counts.Done;
+      var openPct = total ? Math.round((counts.Open / total) * 100) : 0;
+      var progPct = total ? Math.round((counts['In Progress'] / total) * 100) : 0;
+      var gradient = total
+        ? 'conic-gradient(#2f5fdd 0 ' + openPct + '%, #d8860a ' + openPct + '% ' + (openPct + progPct) + '%, #1f9d61 ' + (openPct + progPct) + '% 100%)'
+        : 'conic-gradient(#e2e6ec 0 100%)';
+
+      function esc(s) { return HD.escapeHtml(s); }
+
+      var html = '';
+      html += '<div class="welcome-banner">';
+      html += '<div>';
+      html += '<span class="welcome-eyebrow">' + esc(greeting) + (user.company ? ' · ' + esc(user.company) : '') + '</span>';
+      html += '<h1>' + esc(firstName) + ", here's where things stand.</h1>";
+      html += '<p class="muted">';
+      html += openTotal === 0
+        ? "You have no open requests right now — everything's been taken care of."
+        : 'You have <strong>' + openTotal + '</strong> ticket' + (openTotal === 1 ? '' : 's') + ' being worked on.';
+      html += '</p></div>';
+      html += '<a href="ticket-new.html" class="btn btn-primary btn-lg"><svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Log a Ticket</a>';
+      html += '</div>';
+
+      html += '<div class="overview-grid">';
+      html += '<div class="stat-row stat-row-compact">';
+      html += '<div class="stat-card stat-open"><span class="stat-number">' + counts.Open + '</span><span class="stat-label">Open</span></div>';
+      html += '<div class="stat-card stat-progress"><span class="stat-number">' + counts['In Progress'] + '</span><span class="stat-label">In Progress</span></div>';
+      html += '<div class="stat-card stat-done"><span class="stat-number">' + counts.Done + '</span><span class="stat-label">Done</span></div>';
+      html += '</div>';
+      html += '<div class="card donut-card"><h2 class="section-title">My Ticket Breakdown</h2>';
+      html += '<div class="donut-wrap"><div class="donut" style="background: ' + gradient + ';"><div class="donut-hole"><span class="donut-total">' + total + '</span><span class="donut-label">total</span></div></div>';
+      html += '<ul class="donut-legend">';
+      html += '<li><span class="dot dot-open"></span> Open <strong>' + counts.Open + '</strong></li>';
+      html += '<li><span class="dot dot-progress"></span> In Progress <strong>' + counts['In Progress'] + '</strong></li>';
+      html += '<li><span class="dot dot-done"></span> Done <strong>' + counts.Done + '</strong></li>';
+      html += '</ul></div></div>';
+      html += '</div>';
+
+      if (recentActivity.length > 0) {
+        html += '<div class="card"><h2 class="section-title">Recent Activity</h2><ul class="activity-feed">';
+        recentActivity.forEach(function (a) {
+          var msg = a.message.length > 140 ? a.message.slice(0, 140) + '…' : a.message;
+          html += '<li>';
+          html += '<span class="avatar avatar-sm role-avatar-' + a.commenter_role + '">' + HD.initials(a.commenter_name) + '</span>';
+          html += '<div class="activity-body"><p><strong>' + esc(a.commenter_name) + '</strong> commented on <a href="ticket.html?id=' + a.ticket_id + '">' + a.ticket_number + ' · ' + esc(a.ticket_title) + '</a></p>';
+          html += '<p class="activity-message">"' + esc(msg) + '"</p></div>';
+          html += '<span class="muted activity-time" title="' + a.created_at + '">' + a.age + '</span>';
+          html += '</li>';
+        });
+        html += '</ul></div>';
+      }
+
+      html += '<div class="card">';
+      if (tickets.length === 0) {
+        html += '<div class="empty-state"><svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7Z"/></svg>';
+        html += "<p>You haven't logged any tickets yet.</p><a href=\"ticket-new.html\" class=\"btn btn-primary\">Log your first ticket</a></div>";
+      } else {
+        html += '<div class="card-header-row"><h2 class="section-title">All my tickets</h2><input type="search" class="search-input" placeholder="Search my tickets..." data-table-search="#my-tickets-table" /></div>';
+        html += '<table class="table" id="my-tickets-table"><thead><tr><th>Ticket</th><th>Department</th><th>Handled By</th><th>Priority</th><th>Status</th><th>Logged</th></tr></thead><tbody>';
+        tickets.forEach(function (t) {
+          html += '<tr onclick="window.location=\'ticket.html?id=' + t.id + '\'" class="clickable-row">';
+          html += '<td><span class="ticket-number">' + t.number + '</span> <span class="ticket-title-cell">' + esc(t.title) + '</span></td>';
+          html += '<td>' + esc(t.department_name) + '</td>';
+          html += '<td class="muted">' + (t.assignee_name ? esc(t.assignee_name) : 'Awaiting assignment') + '</td>';
+          html += '<td><span class="badge priority-' + t.priority.toLowerCase() + '">' + t.priority + '</span></td>';
+          html += '<td><span class="badge status-' + t.status.replace(' ', '-').toLowerCase() + '">' + t.status + '</span></td>';
+          html += '<td class="muted" title="' + t.created_at + '">' + t.age + '</td>';
+          html += '</tr>';
+        });
+        html += '</tbody></table><p class="muted search-empty" data-search-empty hidden>No tickets match your search.</p>';
+      }
+      html += '</div>';
+
+      document.getElementById('main-content').innerHTML = html;
+      window.HDApp.rewire();
+    });
+  </script>
+</body>
+</html>

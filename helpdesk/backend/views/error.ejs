@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head', { title: 'Notice' }) %>
+</head>
+<body class="auth-body">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <span class="brand-mark brand-mark-lg brand-mark-warn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L14.7 3.86a2 2 0 0 0-3.4 0Z"/></svg>
+      </span>
+      <h1>Oops</h1>
+      <p class="auth-sub"><%= message %></p>
+      <a href="/" class="btn btn-primary btn-block">Go back home</a>
+    </div>
+  </div>
+</body>
+</html>

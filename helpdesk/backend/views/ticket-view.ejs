@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head', { title: ticket.number }) %>
+</head>
+<body>
+  <div class="page-shell">
+  <%- include('partials/nav', { active: isStaff ? 'admin-tickets' : 'dashboard' }) %>
+
+  <main class="container container-narrow">
+    <div class="page-header">
+      <div>
+        <p class="muted breadcrumb">
+          <a href="<%= isStaff ? '/admin/tickets' : '/dashboard' %>">&larr; Back to tickets</a>
+        </p>
+        <h1><%= ticket.title %></h1>
+        <p class="muted">
+          <span class="ticket-number"><%= ticket.number %></span> · <%= ticket.department_name %> · Logged by <%= ticket.created_by_name %><% if (ticket.created_by_role === 'client') { %><span class="badge badge-client">Client<%= ticket.created_by_company ? ' · ' + ticket.created_by_company : '' %></span><% } %> · <span title="<%= ticket.created_at %>"><%= ticket.age %></span>
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ticket-meta-row">
+        <span class="badge priority-<%= ticket.priority.toLowerCase() %>"><%= ticket.priority %> priority</span>
+        <span class="badge status-<%= ticket.status.replace(' ', '-').toLowerCase() %>"><%= ticket.status %></span>
+      </div>
+
+      <p class="ticket-description"><%= ticket.description %></p>
+
+      <div class="assignment-row">
+        <% if (ticket.assignee_name) { %>
+          <span class="avatar avatar-sm"><%= ticket.assignee_name.trim().split(/\s+/).map(function(p){return p[0];}).slice(0,2).join('').toUpperCase() %></span>
+          <span><%= isStaff ? 'Assigned to' : 'Being handled by' %> <strong><%= ticket.assignee_name %></strong></span>
+        <% } else { %>
+          <span class="badge badge-unassigned">Unassigned</span>
+          <span class="muted"><%= isStaff ? 'Nobody is on this yet.' : 'Awaiting assignment to a technician.' %></span>
+        <% } %>
+      </div>
+
+      <% if (isStaff) { %>
+        <div class="staff-controls">
+          <form method="POST" action="/tickets/<%= ticket.id %>/status" class="status-form">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+              <% statuses.forEach(function(s) { %>
+                <option value="<%= s %>" <%= ticket.status === s ? 'selected' : '' %>><%= s %></option>
+              <% }) %>
+            </select>
+            <button type="submit" class="btn btn-primary btn-sm">Update</button>
+          </form>
+
+          <% if (!ticket.assignee_id) { %>
+            <form method="POST" action="/tickets/<%= ticket.id %>/claim">
+              <button type="submit" class="btn btn-ghost btn-sm">Claim this ticket</button>
+            </form>
+          <% } %>
+
+          <form method="POST" action="/tickets/<%= ticket.id %>/assign" class="status-form">
+            <label for="assigned_to">Reassign to</label>
+            <select id="assigned_to" name="assigned_to">
+              <option value="">Unassigned</option>
+              <% technicians.forEach(function(t) { %>
+                <option value="<%= t.id %>" <%= ticket.assignee_id === t.id ? 'selected' : '' %>><%= t.full_name %> (<%= t.role %>)</option>
+              <% }) %>
+            </select>
+            <button type="submit" class="btn btn-ghost btn-sm">Save</button>
+          </form>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Activity</h2>
+
+      <% if (comments.length === 0) { %>
+        <p class="muted">No comments yet.</p>
+      <% } %>
+
+      <div class="comment-list">
+        <% comments.forEach(function(c) { %>
+          <div class="comment">
+            <span class="avatar avatar-sm role-avatar-<%= c.role %>"><%= c.full_name.trim().split(/\s+/).map(function(p){return p[0];}).slice(0,2).join('').toUpperCase() %></span>
+            <div class="comment-body">
+              <div class="comment-head">
+                <strong><%= c.full_name %></strong>
+                <span class="role-pill role-<%= c.role %>"><%= c.role %></span>
+                <span class="muted comment-date" title="<%= c.created_at %>"><%= c.created_at %></span>
+              </div>
+              <p><%= c.message %></p>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+
+      <form method="POST" action="/tickets/<%= ticket.id %>/comments" class="stacked-form comment-form">
+        <label for="message">Add a comment</label>
+        <textarea id="message" name="message" rows="3" placeholder="Write an update or ask a question..." required></textarea>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Post Comment</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>
+  </div>
+</body>
+</html>

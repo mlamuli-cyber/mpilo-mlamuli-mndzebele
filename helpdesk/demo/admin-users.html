@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+    } catch (e) {}
+  })();
+</script>
+<title>Users · Help Desk</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%232f5fdd'/%3E%3Cpath d='M12 4 5 7.5V12c0 4.2 3 7.6 7 8 4-.4 7-3.8 7-8V7.5L12 4Z' fill='none' stroke='white' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='m9 12.2 1.8 1.8L15 10' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/demo.css" />
+<script src="js/demo-data.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="js/ui.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <div id="demo-banner-root"></div>
+    <div id="nav-root"></div>
+    <main class="container">
+      <div class="page-header">
+        <div>
+          <h1>Users</h1>
+          <p class="muted">Create accounts and set their passwords yourself. Users cannot change their own username or password.</p>
+        </div>
+      </div>
+
+      <div id="alert-root"></div>
+
+      <div class="two-col">
+        <div class="card">
+          <h2 class="section-title">Add a User</h2>
+          <form id="add-user-form" class="stacked-form">
+            <label for="full_name">Full name</label>
+            <input type="text" id="full_name" name="full_name" placeholder="e.g. Jane Dlamini" required />
+
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="e.g. jdlamini" required />
+
+            <label for="password">Password</label>
+            <div class="password-field">
+              <input type="password" id="password" name="password" placeholder="Set a password (min. 6 characters)" minlength="6" required />
+              <button type="button" class="pw-toggle" aria-label="Show password" tabindex="-1"></button>
+            </div>
+
+            <label for="role">Role</label>
+            <select id="role" name="role">
+              <option value="user" selected>User — employee, logs tickets</option>
+              <option value="client">Client — external, logs tickets</option>
+              <option value="technician">Technician — works tickets</option>
+              <option value="admin">Admin — full access</option>
+            </select>
+
+            <label for="company">Company <span class="field-optional">(clients only)</span></label>
+            <input type="text" id="company" name="company" placeholder="e.g. Acme Corp" />
+
+            <label for="department_id">Department <span class="field-optional">(for technicians)</span></label>
+            <select id="department_id" name="department_id">
+              <option value="">No department</option>
+            </select>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                Create User
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-header-row">
+            <h2 class="section-title">All Users</h2>
+            <input type="search" class="search-input" id="user-search" placeholder="Search users..." data-table-search="#users-table" />
+          </div>
+          <table class="table" id="users-table">
+            <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Department / Company</th><th></th></tr></thead>
+            <tbody id="users-tbody"></tbody>
+          </table>
+          <p class="muted search-empty" data-search-empty hidden>No users match your search.</p>
+        </div>
+      </div>
+    </main>
+    <div id="footer-root"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var HD = window.HD;
+      var currentUser = HD.requireAdmin();
+      if (!currentUser) return;
+      window.HDUI.mountChrome(currentUser, 'admin-users');
+
+      function esc(s) { return HD.escapeHtml(s); }
+      var alertRoot = document.getElementById('alert-root');
+
+      function showError(message) {
+        alertRoot.innerHTML = '<div class="alert alert-error">' + esc(message) + '</div>';
+      }
+      function showSuccess(html) {
+        alertRoot.innerHTML = '<div class="alert alert-success">' + html + '</div>';
+      }
+
+      var deptSelect = document.getElementById('department_id');
+      HD.orderedDepartments().forEach(function (d) {
+        var opt = document.createElement('option');
+        opt.value = d.id;
+        opt.textContent = d.name + (d.client_facing ? ' (client-facing)' : '');
+        deptSelect.appendChild(opt);
+      });
+
+      function render() {
+        var users = HD.listUsers();
+        var html = '';
+        users.forEach(function (u) {
+          html += '<tr>';
+          html += '<td><span class="avatar avatar-sm role-avatar-' + u.role + '">' + HD.initials(u.full_name) + '</span> ' + esc(u.full_name) + '</td>';
+          html += '<td class="muted">' + esc(u.username) + '</td>';
+          html += '<td><span class="role-pill role-' + u.role + '">' + u.role + '</span></td>';
+          html += '<td class="muted">' + esc(u.role === 'client' ? (u.company || '—') : (u.department_name || '—')) + '</td>';
+          html += '<td class="row-actions">';
+          html += '<details class="reset-pw"><summary class="btn btn-ghost btn-sm">Set Password</summary>';
+          html += '<form class="reset-pw-form" data-reset="' + u.id + '"><div class="password-field"><input type="password" name="password" placeholder="New password" minlength="6" required /><button type="button" class="pw-toggle" aria-label="Show password" tabindex="-1"></button></div><button type="submit" class="btn btn-primary btn-sm">Save</button></form>';
+          html += '</details>';
+          if (currentUser.id !== u.id) {
+            html += '<button type="button" class="btn btn-danger btn-sm" data-delete-user="' + u.id + '" data-name="' + esc(u.full_name) + '">Delete</button>';
+          }
+          html += '</td></tr>';
+        });
+        document.getElementById('users-tbody').innerHTML = html;
+        window.HDApp.rewire();
+
+        document.querySelectorAll('[data-reset]').forEach(function (form) {
+          form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var password = form.querySelector('input[name="password"]').value;
+            var result = HD.resetPassword(form.getAttribute('data-reset'), password);
+            if (!result.ok) { showError(result.error); return; }
+            showSuccess('Password updated for <strong>' + esc(result.user.full_name) + '</strong> (' + esc(result.user.username) + '). Share the new password with them directly.');
+            render();
+          });
+        });
+        document.querySelectorAll('[data-delete-user]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var name = btn.getAttribute('data-name');
+            if (!window.confirm('Delete ' + name + '?')) return;
+            var result = HD.deleteUser(btn.getAttribute('data-delete-user'), currentUser.id);
+            if (!result.ok) { showError(result.error); return; }
+            alertRoot.innerHTML = '';
+            render();
+          });
+        });
+
+        var q = document.getElementById('user-search').value.trim().toLowerCase();
+        if (q) {
+          document.querySelectorAll('#users-tbody tr').forEach(function (row) {
+            row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+          });
+        }
+      }
+
+      document.getElementById('add-user-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var result = HD.createUser({
+          full_name: document.getElementById('full_name').value,
+          username: document.getElementById('username').value,
+          password: document.getElementById('password').value,
+          role: document.getElementById('role').value,
+          company: document.getElementById('company').value,
+          department_id: document.getElementById('department_id').value,
+        });
+        if (!result.ok) { showError(result.error); return; }
+        showSuccess('Account created for <strong>' + esc(result.user.full_name) + '</strong> (' + esc(result.user.username) + '). Share the username and password you set with them directly.');
+        e.target.reset();
+        render();
+      });
+
+      render();
+    });
+  </script>
+</body>
+</html>

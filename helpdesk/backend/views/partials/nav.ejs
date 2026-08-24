@@ -1,0 +1,63 @@
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="<%= (currentUser.role === 'admin' || currentUser.role === 'technician') ? '/admin' : '/dashboard' %>">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6.5V12c0 5.2 3.8 9.5 9 10 5.2-.5 9-4.8 9-10V6.5L12 2Z"/><path d="m9 12 2 2 4-4"/></svg>
+      </span>
+      <span class="brand-name">Help Desk</span>
+    </a>
+
+    <nav class="main-nav">
+      <% if (currentUser.role === 'admin' || currentUser.role === 'technician') { %>
+        <a href="/admin" class="<%= active === 'admin-dashboard' ? 'active' : '' %>">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          Overview
+        </a>
+        <a href="/admin/tickets" class="<%= active === 'admin-tickets' ? 'active' : '' %>">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7Z"/><path d="M13 5v2M13 17v2M13 10.5v3"/></svg>
+          All Tickets
+        </a>
+        <% if (currentUser.role === 'admin') { %>
+          <a href="/admin/departments" class="<%= active === 'admin-departments' ? 'active' : '' %>">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="10" height="18"/><path d="M14 8h6v13h-6"/><path d="M7 7h.01M11 7h.01M7 11h.01M11 11h.01M7 15h.01M11 15h.01"/></svg>
+            Departments
+          </a>
+          <a href="/admin/users" class="<%= active === 'admin-users' ? 'active' : '' %>">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Users
+          </a>
+        <% } %>
+      <% } else { %>
+        <a href="/dashboard" class="<%= active === 'dashboard' ? 'active' : '' %>">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7Z"/></svg>
+          My Tickets
+        </a>
+        <a href="/tickets/new" class="<%= active === 'new-ticket' ? 'active' : '' %>">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          Log a Ticket
+        </a>
+      <% } %>
+    </nav>
+
+    <div class="topbar-right">
+      <button type="button" class="theme-toggle" id="theme-toggle" title="Toggle light / dark theme" aria-label="Toggle light / dark theme">
+        <svg class="nav-icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="nav-icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+      </button>
+
+      <div class="who">
+        <span class="avatar"><%= currentUser.full_name.trim().split(/\s+/).map(function(p){return p[0];}).slice(0,2).join('').toUpperCase() %></span>
+        <span class="who-text">
+          <span class="who-name"><%= currentUser.full_name %><% if (currentUser.company) { %> · <%= currentUser.company %><% } %></span>
+          <span class="role-pill role-<%= currentUser.role %>"><%= currentUser.role %></span>
+        </span>
+      </div>
+      <form method="POST" action="/logout">
+        <button class="btn btn-ghost btn-sm btn-icon" type="submit" title="Log out">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+          Log out
+        </button>
+      </form>
+    </div>
+  </div>
+</header>

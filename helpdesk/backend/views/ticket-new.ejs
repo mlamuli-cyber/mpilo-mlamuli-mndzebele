@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head', { title: 'Log a Ticket' }) %>
+</head>
+<body>
+  <div class="page-shell">
+  <%- include('partials/nav', { active: 'new-ticket' }) %>
+
+  <main class="container container-narrow">
+    <div class="page-header">
+      <div>
+        <h1>Log a Ticket</h1>
+        <p class="muted">Describe the issue and we'll route it to the right department.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <% if (error) { %>
+        <div class="alert alert-error"><%= error %></div>
+      <% } %>
+
+      <% if (departments.length === 0) { %>
+        <div class="empty-state">
+          <p>There's no support channel open for your account yet. Please contact your administrator.</p>
+        </div>
+      <% } else { %>
+        <form method="POST" action="/tickets" class="stacked-form">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" placeholder="Short summary of the issue" required value="<%= form.title || '' %>" />
+
+          <label for="department_id">Department</label>
+          <select id="department_id" name="department_id" required>
+            <% departments.forEach(function(d, i) { %>
+              <% const isSelected = form.department_id ? String(form.department_id) === String(d.id) : i === 0; %>
+              <option value="<%= d.id %>" <%= isSelected ? 'selected' : '' %>><%= d.name %></option>
+            <% }) %>
+          </select>
+          <span class="field-hint">
+            <% if (currentUser.role === 'client') { %>
+              Choose whichever best matches your issue.
+            <% } else { %>
+              Most requests belong in IT Department — change this only if it's routing elsewhere (e.g. Facilities, HR).
+            <% } %>
+          </span>
+
+          <label for="priority">Priority</label>
+          <select id="priority" name="priority">
+            <% priorities.forEach(function(p) { %>
+              <option value="<%= p %>" <%= (form.priority || 'Medium') === p ? 'selected' : '' %>><%= p %></option>
+            <% }) %>
+          </select>
+
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="6" placeholder="What's happening? Include any relevant details." required><%= form.description || '' %></textarea>
+
+          <div class="form-actions">
+            <a href="/dashboard" class="btn btn-ghost">Cancel</a>
+            <button type="submit" class="btn btn-primary">Submit Ticket</button>
+          </div>
+        </form>
+      <% } %>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>
+  </div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head', { title: 'Departments' }) %>
+</head>
+<body>
+  <div class="page-shell">
+  <%- include('partials/nav', { active: 'admin-departments' }) %>
+
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1>Departments</h1>
+        <p class="muted">Manage the departments users can route tickets to. Mark a department "client-facing" to open it up to your external client accounts.</p>
+      </div>
+    </div>
+
+    <% if (error) { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
+
+    <div class="two-col">
+      <div class="card">
+        <h2 class="section-title">Add a Department</h2>
+        <form method="POST" action="/admin/departments" class="stacked-form">
+          <label for="name">Department name</label>
+          <input type="text" id="name" name="name" placeholder="e.g. Human Resources" required />
+
+          <label class="checkbox-label">
+            <input type="checkbox" name="client_facing" value="1" />
+            Client-facing — external clients can send tickets here
+          </label>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+              <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              Add Department
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">All Departments</h2>
+        <% if (departments.length === 0) { %>
+          <div class="empty-state"><p>No departments yet.</p></div>
+        <% } else { %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Access</th>
+                <th>Technicians</th>
+                <th>Users</th>
+                <th>Tickets</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% departments.forEach(function(d) { %>
+                <tr>
+                  <td class="ticket-title-cell"><%= d.name %></td>
+                  <td>
+                    <% if (d.client_facing) { %>
+                      <span class="badge badge-client">Client-facing</span>
+                    <% } else { %>
+                      <span class="badge badge-internal">Internal only</span>
+                    <% } %>
+                  </td>
+                  <td class="muted"><%= d.technician_count %></td>
+                  <td class="muted"><%= d.user_count %></td>
+                  <td class="muted"><%= d.ticket_count %></td>
+                  <td class="row-actions">
+                    <form method="POST" action="/admin/departments/<%= d.id %>/toggle-client-facing">
+                      <button type="submit" class="btn btn-ghost btn-sm"><%= d.client_facing ? 'Make Internal' : 'Open to Clients' %></button>
+                    </form>
+                    <form method="POST" action="/admin/departments/<%= d.id %>/delete" onsubmit="return confirm('Delete the \'<%= d.name %>\' department?');">
+                      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        <% } %>
+      </div>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>
+  </div>
+</body>
+</html>

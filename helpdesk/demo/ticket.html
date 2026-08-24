@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+    } catch (e) {}
+  })();
+</script>
+<title>Ticket · Help Desk</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%232f5fdd'/%3E%3Cpath d='M12 4 5 7.5V12c0 4.2 3 7.6 7 8 4-.4 7-3.8 7-8V7.5L12 4Z' fill='none' stroke='white' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='m9 12.2 1.8 1.8L15 10' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/demo.css" />
+<script src="js/demo-data.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="js/ui.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <div id="demo-banner-root"></div>
+    <div id="nav-root"></div>
+    <main class="container container-narrow" id="main-content"></main>
+    <div id="footer-root"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var HD = window.HD;
+      var user = HD.requireLogin();
+      if (!user) return;
+
+      var ticketId = new URLSearchParams(window.location.search).get('id');
+      var ticket = ticketId ? HD.getTicketWithAccess(ticketId, user) : null;
+
+      if (!ticket) {
+        window.location.href = 'error.html?message=' + encodeURIComponent("That ticket doesn't exist, or you don't have access to it.");
+        return;
+      }
+
+      var isStaff = HD.isStaff(user);
+      window.HDUI.mountChrome(user, isStaff ? 'admin-tickets' : 'dashboard');
+
+      function esc(s) { return HD.escapeHtml(s); }
+      var backHref = isStaff ? 'admin-tickets.html' : 'dashboard.html';
+
+      function render() {
+        ticket = HD.getTicketWithAccess(ticketId, user);
+        var comments = HD.getCommentsForTicket(ticketId);
+
+        var html = '';
+        html += '<div class="page-header"><div>';
+        html += '<p class="muted breadcrumb"><a href="' + backHref + '">&larr; Back to tickets</a></p>';
+        html += '<h1>' + esc(ticket.title) + '</h1>';
+        html += '<p class="muted"><span class="ticket-number">' + ticket.number + '</span> · ' + esc(ticket.department_name) + ' · Logged by ' + esc(ticket.created_by_name);
+        if (ticket.created_by_role === 'client') {
+          html += '<span class="badge badge-client">Client' + (ticket.created_by_company ? ' · ' + esc(ticket.created_by_company) : '') + '</span>';
+        }
+        html += ' · <span title="' + ticket.created_at + '">' + ticket.age + '</span></p>';
+        html += '</div></div>';
+
+        html += '<div class="card">';
+        html += '<div class="ticket-meta-row">';
+        html += '<span class="badge priority-' + ticket.priority.toLowerCase() + '">' + ticket.priority + ' priority</span>';
+        html += '<span class="badge status-' + ticket.status.replace(' ', '-').toLowerCase() + '">' + ticket.status + '</span>';
+        html += '</div>';
+
+        html += '<p class="ticket-description">' + esc(ticket.description) + '</p>';
+
+        html += '<div class="assignment-row">';
+        if (ticket.assignee_name) {
+          html += '<span class="avatar avatar-sm">' + HD.initials(ticket.assignee_name) + '</span>';
+          html += '<span>' + (isStaff ? 'Assigned to' : 'Being handled by') + ' <strong>' + esc(ticket.assignee_name) + '</strong></span>';
+        } else {
+          html += '<span class="badge badge-unassigned">Unassigned</span>';
+          html += '<span class="muted">' + (isStaff ? 'Nobody is on this yet.' : 'Awaiting assignment to a technician.') + '</span>';
+        }
+        html += '</div>';
+
+        if (isStaff) {
+          var eligible = HD.listUsers().filter(function (u) {
+            return (u.role === 'technician' || u.role === 'admin') && u.department_id === ticket.department_id;
+          });
+          html += '<div class="staff-controls">';
+          html += '<form class="status-form" id="status-form"><label for="status">Status</label><select id="status" name="status">';
+          HD.STATUSES.forEach(function (s) {
+            html += '<option value="' + s + '"' + (ticket.status === s ? ' selected' : '') + '>' + s + '</option>';
+          });
+          html += '</select><button type="submit" class="btn btn-primary btn-sm">Update</button></form>';
+
+          if (!ticket.assignee_id) {
+            html += '<form id="claim-form"><button type="submit" class="btn btn-ghost btn-sm">Claim this ticket</button></form>';
+          }
+
+          html += '<form class="status-form" id="assign-form"><label for="assigned_to">Reassign to</label><select id="assigned_to" name="assigned_to"><option value="">Unassigned</option>';
+          eligible.forEach(function (t) {
+            html += '<option value="' + t.id + '"' + (ticket.assignee_id === t.id ? ' selected' : '') + '>' + esc(t.full_name) + ' (' + t.role + ')</option>';
+          });
+          html += '</select><button type="submit" class="btn btn-ghost btn-sm">Save</button></form>';
+          html += '</div>';
+        }
+        html += '</div>';
+
+        html += '<div class="card"><h2 class="section-title">Activity</h2>';
+        if (comments.length === 0) html += '<p class="muted">No comments yet.</p>';
+        html += '<div class="comment-list">';
+        comments.forEach(function (c) {
+          html += '<div class="comment">';
+          html += '<span class="avatar avatar-sm role-avatar-' + c.role + '">' + HD.initials(c.full_name) + '</span>';
+          html += '<div class="comment-body"><div class="comment-head"><strong>' + esc(c.full_name) + '</strong>';
+          html += '<span class="role-pill role-' + c.role + '">' + c.role + '</span>';
+          html += '<span class="muted comment-date" title="' + c.created_at + '">' + HD.timeAgo(c.created_at) + '</span></div>';
+          html += '<p>' + esc(c.message) + '</p></div></div>';
+        });
+        html += '</div>';
+
+        html += '<form class="stacked-form comment-form" id="comment-form">';
+        html += '<label for="message">Add a comment</label>';
+        html += '<textarea id="message" name="message" rows="3" placeholder="Write an update or ask a question..." required></textarea>';
+        html += '<div class="form-actions"><button type="submit" class="btn btn-primary">Post Comment</button></div>';
+        html += '</form></div>';
+
+        document.getElementById('main-content').innerHTML = html;
+        wireControls();
+      }
+
+      function wireControls() {
+        var statusForm = document.getElementById('status-form');
+        if (statusForm) {
+          statusForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            HD.updateTicketStatus(ticketId, document.getElementById('status').value);
+            render();
+          });
+        }
+        var claimForm = document.getElementById('claim-form');
+        if (claimForm) {
+          claimForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            HD.claimTicket(ticketId, user.id);
+            render();
+          });
+        }
+        var assignForm = document.getElementById('assign-form');
+        if (assignForm) {
+          assignForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var val = document.getElementById('assigned_to').value;
+            HD.assignTicket(ticketId, val ? val : null);
+            render();
+          });
+        }
+        var commentForm = document.getElementById('comment-form');
+        commentForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var textarea = document.getElementById('message');
+          if (!textarea.value.trim()) return;
+          HD.addComment(ticketId, user.id, textarea.value);
+          render();
+        });
+      }
+
+      render();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head', { title: 'My Tickets' }) %>
+</head>
+<body>
+  <div class="page-shell">
+  <%- include('partials/nav', { active: 'dashboard' }) %>
+
+  <main class="container">
+    <% const hour = new Date().getHours();
+       const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+       const firstName = currentUser.full_name.trim().split(/\s+/)[0];
+       const openTotal = counts.Open + counts['In Progress'];
+    %>
+    <div class="welcome-banner">
+      <div>
+        <span class="welcome-eyebrow"><%= greeting %><% if (currentUser.company) { %> · <%= currentUser.company %><% } %></span>
+        <h1><%= firstName %>, here's where things stand.</h1>
+        <p class="muted">
+          <% if (openTotal === 0) { %>
+            You have no open requests right now — everything's been taken care of.
+          <% } else { %>
+            You have <strong><%= openTotal %></strong> ticket<%= openTotal === 1 ? '' : 's' %> being worked on.
+          <% } %>
+        </p>
+      </div>
+      <a href="/tickets/new" class="btn btn-primary btn-lg">
+        <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Log a Ticket
+      </a>
+    </div>
+
+    <div class="overview-grid">
+      <div class="stat-row stat-row-compact">
+        <div class="stat-card stat-open">
+          <span class="stat-number"><%= counts.Open %></span>
+          <span class="stat-label">Open</span>
+        </div>
+        <div class="stat-card stat-progress">
+          <span class="stat-number"><%= counts['In Progress'] %></span>
+          <span class="stat-label">In Progress</span>
+        </div>
+        <div class="stat-card stat-done">
+          <span class="stat-number"><%= counts.Done %></span>
+          <span class="stat-label">Done</span>
+        </div>
+      </div>
+
+      <% const total = counts.Open + counts['In Progress'] + counts.Done;
+         const openPct = total ? Math.round((counts.Open / total) * 100) : 0;
+         const progPct = total ? Math.round((counts['In Progress'] / total) * 100) : 0;
+         const gradient = total
+           ? `conic-gradient(#2f5fdd 0 ${openPct}%, #d8860a ${openPct}% ${openPct + progPct}%, #1f9d61 ${openPct + progPct}% 100%)`
+           : `conic-gradient(#e2e6ec 0 100%)`;
+      %>
+      <div class="card donut-card">
+        <h2 class="section-title">My Ticket Breakdown</h2>
+        <div class="donut-wrap">
+          <div class="donut" style="background: <%= gradient %>;">
+            <div class="donut-hole">
+              <span class="donut-total"><%= total %></span>
+              <span class="donut-label">total</span>
+            </div>
+          </div>
+          <ul class="donut-legend">
+            <li><span class="dot dot-open"></span> Open <strong><%= counts.Open %></strong></li>
+            <li><span class="dot dot-progress"></span> In Progress <strong><%= counts['In Progress'] %></strong></li>
+            <li><span class="dot dot-done"></span> Done <strong><%= counts.Done %></strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <% if (recentActivity.length > 0) { %>
+      <div class="card">
+        <h2 class="section-title">Recent Activity</h2>
+        <ul class="activity-feed">
+          <% recentActivity.forEach(function(a) { %>
+            <li>
+              <span class="avatar avatar-sm role-avatar-<%= a.commenter_role %>"><%= a.commenter_name.trim().split(/\s+/).map(function(p){return p[0];}).slice(0,2).join('').toUpperCase() %></span>
+              <div class="activity-body">
+                <p><strong><%= a.commenter_name %></strong> commented on <a href="/tickets/<%= a.ticket_id %>"><%= a.ticket_number %> · <%= a.ticket_title %></a></p>
+                <p class="activity-message">"<%= a.message.length > 140 ? a.message.slice(0, 140) + '…' : a.message %>"</p>
+              </div>
+              <span class="muted activity-time" title="<%= a.created_at %>"><%= a.age %></span>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+
+    <div class="card">
+      <% if (tickets.length === 0) { %>
+        <div class="empty-state">
+          <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7Z"/></svg>
+          <p>You haven't logged any tickets yet.</p>
+          <a href="/tickets/new" class="btn btn-primary">Log your first ticket</a>
+        </div>
+      <% } else { %>
+        <div class="card-header-row">
+          <h2 class="section-title">All my tickets</h2>
+          <input type="search" class="search-input" placeholder="Search my tickets..." data-table-search="#my-tickets-table" />
+        </div>
+        <table class="table" id="my-tickets-table">
+          <thead>
+            <tr>
+              <th>Ticket</th>
+              <th>Department</th>
+              <th>Handled By</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Logged</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% tickets.forEach(function(t) { %>
+              <tr onclick="window.location='/tickets/<%= t.id %>'" class="clickable-row">
+                <td>
+                  <span class="ticket-number"><%= t.number %></span>
+                  <span class="ticket-title-cell"><%= t.title %></span>
+                </td>
+                <td><%= t.department_name %></td>
+                <td class="muted"><%= t.assignee_name || 'Awaiting assignment' %></td>
+                <td><span class="badge priority-<%= t.priority.toLowerCase() %>"><%= t.priority %></span></td>
+                <td><span class="badge status-<%= t.status.replace(' ', '-').toLowerCase() %>"><%= t.status %></span></td>
+                <td class="muted" title="<%= t.created_at %>"><%= t.age %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <p class="muted search-empty" data-search-empty hidden>No tickets match your search.</p>
+      <% } %>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>
+  </div>
+</body>
+</html>
