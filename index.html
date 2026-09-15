@@ -105,9 +105,23 @@
 
   
   <section class="hero" id="home">
+    <svg class="hero-watermark" aria-hidden="true" viewBox="0 0 900 600" fill="none" preserveAspectRatio="xMidYMid slice">
+      <path d="M700,90 L790,125 L790,230 C790,300 745,350 700,375 C655,350 610,300 610,230 L610,125 Z" stroke="currentColor" stroke-width="2"/>
+      <path d="M665,235 L692,262 L742,200" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M610,150 L500,150 L500,90 L420,90" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M610,280 L540,280 L540,360 L440,360" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M700,375 L700,450 L780,450" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M790,180 L860,180 L860,120" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="420" cy="90" r="5" fill="currentColor"/>
+      <circle cx="440" cy="360" r="5" fill="currentColor"/>
+      <circle cx="780" cy="450" r="5" fill="currentColor"/>
+      <circle cx="860" cy="120" r="5" fill="currentColor"/>
+      <circle cx="500" cy="150" r="3.5" fill="currentColor"/>
+      <circle cx="540" cy="280" r="3.5" fill="currentColor"/>
+    </svg>
     <div class="hero-grid">
       <div class="hero-copy reveal">
-        <p class="eyebrow">Information Technology Graduate</p>
+        <p class="eyebrow">Software Developer &amp; Cybersecurity Analyst</p>
         <h1 class="hero-title">Hi, I'm <span class="text-accent">Mndzebele Mpilo Mlamuli</span>.<br>I build software and keep networks running.</h1>
         <p class="hero-intro">
           I'm an IT graduate with a strong interest in software development and networking.
@@ -129,9 +143,13 @@
       </div>
 
       <div class="hero-visual reveal" aria-hidden="false">
-        <div class="photo-frame">
-          <img src="assets/img/image.jpg" alt="Portrait of Mndzebele Mpilo Mlamuli" width="420" height="420" loading="eager"/>
-          <span class="photo-empty-label"><br><code></code></span>
+        <div class="photo-radar">
+          <span class="radar-blip radar-blip-1" aria-hidden="true"></span>
+          <span class="radar-blip radar-blip-2" aria-hidden="true"></span>
+          <div class="photo-frame">
+            <img src="assets/img/image.jpg" alt="Portrait of Mndzebele Mpilo Mlamuli" width="420" height="420" loading="eager"/>
+            <span class="photo-empty-label"><br><code></code></span>
+          </div>
         </div>
 
         <div class="terminal" role="img" aria-label="Terminal window showing a simulated introduction">
@@ -158,6 +176,27 @@
       <span></span>
     </a>
   </section>
+
+  <div class="status-ticker" aria-hidden="true">
+    <div class="status-track">
+      <span class="status-chip"><i class="status-led"></i>SYSTEM STATUS: NOMINAL</span>
+      <span class="status-chip"><i class="status-led"></i>CONNECTION: TLS 1.3 ENCRYPTED</span>
+      <span class="status-chip"><i class="status-led"></i>INTRUSION DETECTION: MONITORING</span>
+      <span class="status-chip"><i class="status-led"></i>LAST SECURITY SCAN: CLEAN</span>
+      <span class="status-chip"><i class="status-led"></i>FIREWALL: ACTIVE</span>
+      <span class="status-chip"><i class="status-led status-led-amber"></i>THREAT LEVEL: LOW</span>
+      <span class="status-chip"><i class="status-led"></i>SESSION: SECURE</span>
+      <span class="status-chip"><i class="status-led"></i>UPTIME: 99.9%</span>
+      <span class="status-chip"><i class="status-led"></i>SYSTEM STATUS: NOMINAL</span>
+      <span class="status-chip"><i class="status-led"></i>CONNECTION: TLS 1.3 ENCRYPTED</span>
+      <span class="status-chip"><i class="status-led"></i>INTRUSION DETECTION: MONITORING</span>
+      <span class="status-chip"><i class="status-led"></i>LAST SECURITY SCAN: CLEAN</span>
+      <span class="status-chip"><i class="status-led"></i>FIREWALL: ACTIVE</span>
+      <span class="status-chip"><i class="status-led status-led-amber"></i>THREAT LEVEL: LOW</span>
+      <span class="status-chip"><i class="status-led"></i>SESSION: SECURE</span>
+      <span class="status-chip"><i class="status-led"></i>UPTIME: 99.9%</span>
+    </div>
+  </div>
 
   
   <section class="section" id="about">
@@ -277,7 +316,7 @@
     <div class="section-inner">
       <p class="section-tag">Skills</p>
       <h2 class="section-title">What I work with</h2>
-      <p class="section-lead">Two sides of the same coin: building the application, and making sure it has a network to run on.</p>
+      <p class="section-lead">Two sides of the same coin: building the application, and making sure the network underneath it stays secure.</p>
 
       <div class="skills-grid">
         <div class="skill-panel reveal">
@@ -299,10 +338,22 @@
           </ul>
         </div>
 
-        <div class="skill-panel reveal">
+        <div class="skill-panel skill-panel-security reveal">
+          <svg class="skill-panel-watermark" aria-hidden="true" viewBox="0 0 200 160" fill="none">
+            <line x1="30" y1="130" x2="90" y2="70" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="90" y1="70" x2="150" y2="100" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="90" y1="70" x2="120" y2="20" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="150" y1="100" x2="180" y2="55" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="30" cy="130" r="5" fill="currentColor"/>
+            <circle cx="90" cy="70" r="6" fill="currentColor"/>
+            <circle cx="120" cy="20" r="4" fill="currentColor"/>
+            <circle cx="150" cy="100" r="5" fill="currentColor"/>
+            <circle cx="180" cy="55" r="4" fill="currentColor"/>
+          </svg>
           <div class="skill-panel-head">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
             <h3>Networking &amp; Security</h3>
+            <span class="live-badge"><span class="status-dot small"></span>Monitoring</span>
           </div>
           <ul class="skill-tags">
             <li>TCP/IP</li>
